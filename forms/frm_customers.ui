@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.17.0 -->
+<interface>
+  <!-- interface-name frm_customers.ui -->
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkWindow" id="frm_customers">
+    <property name="default-height">600</property>
+    <property name="default-width">800</property>
+    <property name="height-request">600</property>
+    <property name="receives-default">True</property>
+    <property name="title">Anagrafica clienti</property>
+    <child>
+      <object class="GtkBox">
+        <property name="baseline-position">top</property>
+        <property name="halign">start</property>
+        <property name="margin-bottom">15</property>
+        <property name="margin-end">15</property>
+        <property name="margin-start">15</property>
+        <property name="margin-top">15</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkFrame" id="f_clienti">
+                <property name="height-request">43</property>
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">Elenco clienti</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkFrame" id="f_denominazione">
+                <property name="hexpand">True</property>
+                <property name="label">Ragione sociale / denominazione (*)                           </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_ragione_sociale">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">64</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="label">Codice destinatario (*)  </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_codice_dest">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">13</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="label">PEC                                                       </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_pec">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">13</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="label">Partita IVA (*)                                      </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_partita_iva">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">13</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="label">CF                                                           </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_cf">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">13</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame" id="f_stato">
+                <property name="label">Stato                                                   </property>
+                <property name="margin-start">105</property>
+                <property name="receives-default">True</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">Indirizzo                                                                                                             </property>
+                <property name="margin-end">15</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_indirizzo">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">64</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="halign">start</property>
+                <property name="label">Numero Civico</property>
+                <property name="margin-end">15</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_n_civico">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">6</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="halign">start</property>
+                <property name="label">Comune                       </property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_comune">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">32</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="halign">end</property>
+                <property name="label">CAP / ZIP</property>
+                <property name="margin-start">16</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_cap">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">6</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">e-mail</property>
+                <property name="margin-end">15</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_email">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">27</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">Telefono</property>
+                <property name="valign">start</property>
+                <child>
+                  <object class="GtkEntry" id="e_telefono">
+                    <property name="hexpand">True</property>
+                    <property name="max-length">16</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox"/>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="halign">end</property>
+            <property name="margin-top">21</property>
+            <child>
+              <object class="GtkButton" id="btn_add_new">
+                <property name="label">Add new</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_update">
+                <property name="label">Update current</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_remove">
+                <property name="label">Remove current</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_close">
+                <property name="label">Chiudi</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

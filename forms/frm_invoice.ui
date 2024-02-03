@@ -1,0 +1,1114 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.17.0 -->
+<interface>
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkWindow" id="frm_invoice">
+    <property name="default-height">800</property>
+    <property name="default-width">1024</property>
+    <property name="height-request">600</property>
+    <property name="receives-default">True</property>
+    <property name="title">Emissione fattura</property>
+    <child>
+      <object class="GtkBox">
+        <property name="baseline-position">top</property>
+        <property name="hexpand">True</property>
+        <property name="hexpand-set">True</property>
+        <property name="margin-bottom">15</property>
+        <property name="margin-end">15</property>
+        <property name="margin-start">15</property>
+        <property name="margin-top">15</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">5</property>
+        <child>
+          <object class="GtkBox">
+            <property name="height-request">200</property>
+            <property name="hexpand">True</property>
+            <property name="hexpand-set">True</property>
+            <property name="spacing">15</property>
+            <property name="vexpand">True</property>
+            <property name="vexpand-set">True</property>
+            <child>
+              <object class="GtkFrame" id="f_clienti">
+                <property name="height-request">50</property>
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">Dati aziendali</property>
+                <property name="receives-default">True</property>
+                <property name="width-request">230</property>
+                <child>
+                  <object class="GtkLabel" id="l_dati_aziendali">
+                    <property name="halign">start</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">start</property>
+                    <property name="width-request">71</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame" id="f_data">
+                <property name="halign">start</property>
+                <property name="label">Data</property>
+                <property name="valign">start</property>
+                <property name="width-request">35</property>
+                <child>
+                  <object class="GtkCalendar" id="cal_date"/>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkFrame" id="f_codice_univoco">
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="label">Codice progressivo AdE</property>
+                    <property name="valign">start</property>
+                    <child>
+                      <object class="GtkEntry" id="e_codice_univoco"/>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="l_total_2">
+                    <property name="halign">start</property>
+                    <property name="label">Il progressivo univoco e' di 5 caratteri alfanumerici, sara' utlizzato come nome del file.</property>
+                    <property name="lines">6</property>
+                    <property name="max-width-chars">18</property>
+                    <property name="valign">start</property>
+                    <property name="wrap">True</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkFrame" id="f_cliente">
+                    <property name="height-request">43</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="label">Selezione cliente</property>
+                    <property name="valign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="f_regime_fiscale">
+                    <property name="height-request">43</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="label">Regime fiscale</property>
+                    <property name="valign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFixed">
+                    <property name="height-request">10</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="cb_bollo">
+                    <property name="label">Bollo virtuale</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFixed">
+                    <property name="height-request">10</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">start</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="f_numero_2">
+                    <property name="height-request">43</property>
+                    <property name="hexpand">True</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="label">Numero</property>
+                    <property name="valign">end</property>
+                    <child>
+                      <object class="GtkEntry" id="e_numero"/>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="halign">start</property>
+            <property name="height-request">280</property>
+            <property name="hexpand">True</property>
+            <property name="hexpand-set">True</property>
+            <property name="overlay-scrolling">False</property>
+            <property name="propagate-natural-height">True</property>
+            <property name="propagate-natural-width">True</property>
+            <property name="receives-default">True</property>
+            <property name="vexpand">True</property>
+            <property name="vexpand-set">True</property>
+            <property name="width-request">100</property>
+            <child>
+              <object class="GtkBox">
+                <property name="hexpand-set">True</property>
+                <property name="orientation">vertical</property>
+                <property name="receives-default">True</property>
+                <property name="vexpand">True</property>
+                <property name="vexpand-set">True</property>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_3">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">01</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_4">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_01"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_5">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_01"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_54">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_01"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_6">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_01"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_42">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal</property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_01">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_7">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">02</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_8">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_02"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_9">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_02"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_55">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_02"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_10">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_02"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_43">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal        </property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_02">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_11">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">03</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_12">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_03"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_13">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_03"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_56">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_03"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_14">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_03"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_44">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal  </property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_03">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_15">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">04</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_16">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_04"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_17">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_04"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_57">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_04"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_18">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_04"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_52">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal</property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_04">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_19">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">05</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_20">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_05"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_21">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_05"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_58">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_05"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_22">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_05"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_45">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal</property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_05">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_23">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">06</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_24">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_06"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_25">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_06"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_59">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_06"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_26">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_06"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_51">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal   </property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_06">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_27">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">07</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_28">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_07"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_29">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_07"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_60">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_07"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_30">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_07"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_53">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal   </property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_07">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_31">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">08</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_32">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_08"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_33">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_08"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_63">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_08"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_34">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_08"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_47">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal</property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_08">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_35">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">09</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_36">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_09"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_37">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_09"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_61">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_09"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_38">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_09"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_49">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal</property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_09">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="height-request">60</property>
+                    <property name="hexpand-set">True</property>
+                    <property name="valign">baseline</property>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_39">
+                        <property name="height-request">14</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">N.</property>
+                        <property name="width-request">50</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label">10</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_40">
+                        <property name="height-request">17</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Descrizione</property>
+                        <property name="width-request">620</property>
+                        <child>
+                          <object class="GtkEntry" id="desc_10"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_41">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Q.ty     </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="qty_10"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_62">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Unit    </property>
+                        <property name="width-request">15</property>
+                        <child>
+                          <object class="GtkEntry" id="unit_10"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_42s">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Value</property>
+                        <property name="width-request">60</property>
+                        <child>
+                          <object class="GtkEntry" id="value_10"/>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFrame" id="f_clienti_48">
+                        <property name="height-request">43</property>
+                        <property name="hexpand">True</property>
+                        <property name="hexpand-set">True</property>
+                        <property name="label">Subtotal     </property>
+                        <property name="width-request">100</property>
+                        <child>
+                          <object class="GtkLabel" id="l_subtot_10">
+                            <property name="halign">start</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="halign">end</property>
+            <property name="height-request">60</property>
+            <property name="hexpand">True</property>
+            <property name="hexpand-set">True</property>
+            <property name="valign">baseline</property>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="width-request">213</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="width-request">255</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFrame" id="f_clienti_42s_2">
+                <property name="halign">end</property>
+                <property name="height-request">43</property>
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="label">Total</property>
+                <property name="opacity">0.9</property>
+                <property name="receives-default">True</property>
+                <property name="width-request">100</property>
+                <child>
+                  <object class="GtkLabel" id="l_total">
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="width-request">15</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="halign">end</property>
+            <property name="margin-top">21</property>
+            <child>
+              <object class="GtkButton" id="btn_load">
+                <property name="label">Carica</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_save">
+                <property name="label">Salva</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_gen_cart">
+                <property name="css-classes">btn-important</property>
+                <property name="label">Genera fattura cartacea</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_gen_xml">
+                <property name="css-classes">btn-critical</property>
+                <property name="label">Genera XML per ADE</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_close">
+                <property name="label">Chiudi</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,125 @@
+\documentclass[a4paper,12pt]{article}
+\hbadness=99999
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage[a4paper,hmargin=0.49in,vmargin=0.89in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{fp}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr, xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{tcolorbox}
+\setlength{\headheight}{21pt}
+
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+\makeatother
+
+\pagestyle{empty} % No page numbers
+\pagestyle{fancy}
+\linespread{1.2} % Line spacing
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\definecolor{lightblue}{rgb}{0.89, 0.89, 0.95}
+
+\verbatimfont{\rmfamily}
+
+\definecolor{rcolor}{rgb}{0.122, 0.435, 0.698}% Rule colour
+\makeatletter
+\newcommand{\rbox}[1]{%
+  \setbox0=\hbox{#1}%
+  \setlength{\@tempdima}{\dimexpr\wd0+13pt}%
+  \begin{tcolorbox}[colframe=rcolor,boxrule=0.5pt,arc=4pt,
+      left=10pt,right=6pt,top=11pt,bottom=11pt,boxsep=0pt]
+    #1
+  \end{tcolorbox}
+}
+\makeatother
+
+\newcounter{cnt}
+\setcounter{cnt}{0}
+\def\inc{\stepcounter{cnt}\thecnt}
+\gdef\TotalHT{0}
+\newcommand{\product}[4]{%
+\inc &#1  &#2  &#3  &#4 &\FPmul\temp{#2}{#3}\FPround\temp{\temp}{2}\temp 
+%% Totalize
+\FPadd\total{\TotalHT}{\temp}%
+\FPround\total{\total}{2}%
+\global\let\TotalHT\total%
+\\ }
+\newcommand{\totalttc}{
+   \TotalHT  }
+
+% header
+\fancyhead[L]{
+  \rbox{
+  \Huge\bf{Fattura ordinaria}%rf_title
+  }
+}
+\fancyfoot[C]{\small \textbf {sfe} - free opensource invoicing software - https://github.com/spectrum70/sfe}
+
+\begin{document}
+\noindent\\\\
+\begin{minipage}[t]{0.38\textwidth}
+\rbox{
+	\textbf{Data: }\textbf{data}\\%rf_data
+	\textbf{N.: }\textbf{numero}%rf_n
+}
+\end{minipage}
+\noindent\break\break
+\begin{minipage}[t]{0.38\textwidth}
+	\textbf{Emessa da}
+	\begin{verbatim}
+	Linea test 1
+	Linea test 2
+	Linea test 3
+	Linea test 4
+	\end{verbatim}
+	%rf_issued_from
+\end{minipage}
+\begin{minipage}[t]{0.03\textwidth}
+	~
+\end{minipage}
+\begin{minipage}[t]{0.56\textwidth}
+	\textbf{Cessionario/committente}
+	\begin{verbatim}
+	Linea test 1
+	Linea test 2
+	Linea test 3
+	Linea test 4
+	\end{verbatim}
+	%rf_issued_to
+\end{minipage}
+\noindent\break
+\begin{longtable}{ || l | p{8.3cm} | r | r | r || r || }
+\hline
+\bf N.   &\bf Descrizione &\bf Prezzo &\bf Quantità &\bf I.V.A. &\bf Totale\\
+\hline
+\hline
+    \product{}{}{}{}%rf_e01
+    \product{}{}{}{}%rf_e02
+    \product{}{}{}{}%rf_e03
+    \product{}{}{}{}%rf_e04
+    \product{}{}{}{}%rf_e05
+    \product{}{}{}{}%rf_e06
+    \product{}{}{}{}%rf_e07
+    \product{}{}{}{}%rf_e08
+    \product{}{}{}{}%rf_e09
+    \product{}{}{}{}%rf_e10
+\hline
+\hline
+    &&&&&\bf Total \totalttc\\
+\hline
+\end{longtable}\hfill\\
+\textbf{IVA Aliquota 0.00\%}\\
+\textbf{Natura: non soggette ad IVA ai sensi degli artt. da 7 a 7-septies del DPR 633/72}\\
+\textbf{Regime fiscale: }{}\\%rf_regime_fiscale
+\textbf{Bollo Virtuale: }{}\\\\%rf_bollo_virtuale
+\textbf{Payment due:} as agreed by the parts.\\
+\textbf{Payment method:} {IBAN IT000000000000000}\\%rf_my_iban
+\textbf{Bank:} {CRFVG Trieste}\\%rf_my_bank
+\break
+\underline{\textbf{THANKS}}
+\end{document}

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Cambalache 0.17.0 -->
+<interface>
+  <requires lib="gtk" version="4.12"/>
+  <object class="GtkWindow" id="frm_help">
+    <property name="default-height">480</property>
+    <property name="default-width">480</property>
+    <property name="height-request">480</property>
+    <property name="title">Help</property>
+    <property name="width-request">480</property>
+    <child>
+      <object class="GtkBox">
+        <property name="margin-top">21</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkLabel">
+            <property name="justify">center</property>
+            <property name="label">SFE Semplice Fatturazione Elettronica
+(C) 2024 - Kernelspace</property>
+            <property name="lines">17</property>
+            <property name="max-width-chars">50</property>
+            <property name="wrap">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="l_version">
+            <property name="lines">17</property>
+            <property name="max-width-chars">50</property>
+            <property name="wrap">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="css-classes">help-frame</property>
+            <property name="hexpand">True</property>
+            <property name="margin-bottom">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-start">10</property>
+            <property name="margin-top">10</property>
+            <property name="vexpand">True</property>
+            <property name="vexpand-set">True</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="label" translatable="yes">
+Questo software nasce da esigenze personali, per facilitare
+una creazione veloce di fatture, generare ilrelativo file xml
+conforme all'invio ad AdE.
+
+L'utilizzo e' intuitivo, non c'e' bisogno di particolare
+documentazione, almeno per ora.
+
+Funzionalita' supportate:
+* anagrafica emittente,
+* anagrafica clienti,
+* creazione fattura,
+* salva/carica fattura su/da file,
+* output pdf (latex),
+* output xml.
+
+"Use at your own risk", ovvero
+ non rispondo di nulla.
+
+Il software e' open, per migliorarlo
+basta contribuire.
+
+Pull request ben accette.
+repo: https://github.com/spectrum70/sfe
+For info: angelo@kernel-space.org</property>
+                <property name="lines">5</property>
+                <property name="max-width-chars">50</property>
+                <property name="wrap">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="halign">end</property>
+            <property name="margin-top">21</property>
+            <child>
+              <object class="GtkFixed">
+                <property name="hexpand">True</property>
+                <property name="hexpand-set">True</property>
+                <property name="margin-end">10</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="btn_close">
+                <property name="label">Chiudi</property>
+                <property name="margin-end">12</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

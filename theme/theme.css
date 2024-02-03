@@ -1,0 +1,40 @@
+
+/* ColumnView header bar are buttons */
+columnview.view button {
+	color: cyan;
+	background-color: #404000;
+	font-weight: bold; 
+}
+
+columnview.view row {
+	line-height: 10px;
+}
+
+/*
+columnview.view row:nth-child(even) {
+	background-color: #202020;
+}
+*/
+
+columnview.view row:active, columnview.view row:focus { 
+	background-color: #c0c010;
+	color: black;
+	font-weight: bold;
+}
+
+.btn-important {
+        color: black;
+        background: orange;
+        font-weight: bold;
+}
+
+.btn-critical {
+        color: yellow;
+        background: #202080;
+        font-weight: bold;
+}
+
+.help-frame {
+	border-width: 3px;
+	border-style: dotted;
+}
