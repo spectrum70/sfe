@@ -27,12 +27,12 @@
 using std::make_shared;
 using std::iter_swap;
 
-frm_main::frm_main(GtkApplication *app) : gobj_sel(-1)
+frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 {
-	GtkWidget *window;
 	GtkGesture *gc, *gd;
 	gobj *go;
 	config &cfg = config::get();
+
 
 	if (!cfg.load_config()) {
 		cfg.setup_defaults();
@@ -52,17 +52,17 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1)
 	gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(drawing_area),
 				       on_draw_event, this, NULL);
 
-	string path, icon_text;
+	string path, icon, icon_text;
 	int i, icon_x, icon_y;
 
 	for (i = 0; i < s_id_max; ++i) {
 		path = "sections.feature_" + tools::itoa(i);
+		icon = string(res_path) + "icons/" +
+			cfg.get_string(string(path + ".icon").c_str());
 		icon_text = cfg.get_string(string(path + ".icon_text").c_str());
 		icon_x = cfg.get_int(string(path + ".icon_x").c_str());
 		icon_y = cfg.get_int(string(path + ".icon_y").c_str());
-		go = (gobj *)new gobj_icon(
-			"./icons/icons8-documents-folder-96.png",
-			icon_text, icon_x, icon_y, i);
+		go = (gobj *)new gobj_icon(icon, icon_text, icon_x, icon_y, i);
 		gobjs.push_back(shared_ptr<gobj>(go));
 	}
 
@@ -78,6 +78,8 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1)
 	g_signal_connect(G_OBJECT(window), "notify::default-width",
 			 G_CALLBACK(on_property_notification), this);
 	g_signal_connect(G_OBJECT(window), "notify::default-height",
+			 G_CALLBACK(on_property_notification), this);
+	g_signal_connect(G_OBJECT(window), "notify::is-active",
 			 G_CALLBACK(on_property_notification), this);
 	g_signal_connect(G_OBJECT(window), "close-request",
 			 G_CALLBACK(on_windows_close), this);
@@ -135,7 +137,7 @@ void frm_main::on_mouse_drag_begin(GtkGestureDrag *gesture,
 
 		if (id != last) {
 			iter_swap(f->gobjs.begin() + id,
-					f->gobjs.begin() + last);
+				  f->gobjs.begin() + last);
 		}
 
 		f->gobj_sel = last;
@@ -180,11 +182,14 @@ void frm_main::on_property_notification(GObject* self,
 {
 	frm_main *f = (frm_main *)data;
 
-	f->width = gtk_widget_get_size(GTK_WIDGET(self),
-				    GTK_ORIENTATION_HORIZONTAL);
+	if (f->titlebar_height == -1)
+		f->titlebar_height =
+			f->height - gtk_widget_get_height(f->drawing_area);
 
+	f->width = gtk_widget_get_size(GTK_WIDGET(self),
+				       GTK_ORIENTATION_HORIZONTAL);
 	f->height = gtk_widget_get_size(GTK_WIDGET(self),
-				     GTK_ORIENTATION_VERTICAL);
+					GTK_ORIENTATION_VERTICAL);
 }
 
 void frm_main::on_mouse_click(GtkGestureClick* self,

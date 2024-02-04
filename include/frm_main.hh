@@ -16,6 +16,8 @@ struct frm_main {
 	int get_object(int x, int y) {
 		size_t i;
 
+		y -= titlebar_height;
+
 		for (i = 0; i < gobjs.size(); ++i) {
 			if (x > gobjs[i]->x &&
 				x < gobjs[i]->x + gobjs[i]->width &&
@@ -45,8 +47,10 @@ public:
 	int gobj_drag_start_x;
 	int gobj_drag_start_y;
 	int width, height;
+	int titlebar_height;
 private:
 	GtkWidget *drawing_area;
+	GtkWidget *window;
 	vector<shared_ptr<gobj>> gobjs;
 };
 

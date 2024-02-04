@@ -10,8 +10,7 @@ using std::string;
 
 typedef vector<string> vect_str;
 
-constexpr int DLG_CFG_WIDTH = 360;
-constexpr int DLG_CFG_HEIGHT = 380;
+constexpr char res_path[] = "/usr/share/sfe/";
 
 class config {
 	config();

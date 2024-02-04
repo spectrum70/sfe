@@ -62,18 +62,22 @@ void config::setup_defaults()
 	}
 
 	name = "sections.feature_" + tools::itoa(s_id_azienda);
+	add_option(name.c_str(), "icon", "icons8-user-folder-96.png");
 	add_option(name.c_str(), "icon_text", "Dati aziendali");
 	add_option(name.c_str(), "icon_x", 40);
 	add_option(name.c_str(), "icon_y", 20);
 	name = "sections.feature_" + tools::itoa(s_id_ana_cli);
+	add_option(name.c_str(), "icon", "icons8-books-folder-96.png");
 	add_option(name.c_str(), "icon_text", "Anagrafica clienti");
 	add_option(name.c_str(), "icon_x", 200);
 	add_option(name.c_str(), "icon_y", 20);
 	name = "sections.feature_" + tools::itoa(s_id_em_fatt);
+	add_option(name.c_str(), "icon", "icons8-documents-folder-96.png");
 	add_option(name.c_str(), "icon_text", "Emissione fatture");
 	add_option(name.c_str(), "icon_x", 360);
 	add_option(name.c_str(), "icon_y", 20);
 	name = "sections.feature_" + tools::itoa(s_id_settings);
+	add_option(name.c_str(), "icon", "icons8-services-96.png");
 	add_option(name.c_str(), "icon_text", "Configurazione");
 	add_option(name.c_str(), "icon_x", 520);
 	add_option(name.c_str(), "icon_y", 20);

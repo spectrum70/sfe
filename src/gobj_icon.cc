@@ -44,6 +44,6 @@ void gobj_icon::draw(cairo_t *cr)
 	cairo_set_font_size(cr, 13);
 	cairo_text_extents(cr, text.c_str(), &extents);
 	cairo_move_to(cr, x + (width >> 1) - (extents.width / 2),
-			y + height + 5);
+			y + height + 12);
 	cairo_show_text(cr, text.c_str());
 }
