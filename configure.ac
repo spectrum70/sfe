@@ -30,13 +30,16 @@ AC_CONFIG_FILES([Makefile])
 # Checks for libraries.
 PKG_CHECK_MODULES([X11], [x11 >= 1.0])
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.6.0])
+PKG_CHECK_MODULES([LIBCONFIGXX], [libconfig++ >= 1.7],,
+	AC_MSG_ERROR([libconfig++ 1.4 or newer not found.])
+)
 
 GTK_CPPFLAGS=`$PKG_CONFIG --cflags gtk4`
 GTK_LIBS=`$PKG_CONFIG --libs gtk4`
 
 # updating CFLAGS with gtk4 include dir
-LDFLAGS="$LDFLAGS $GTK_LIBS"
-CPPFLAGS="$CPPFLAGS $GTK_CPPFLAGS"
+LDFLAGS="$LDFLAGS $GTK_LIBS $LIBCONFIGXX_LIBS"
+CPPFLAGS="$CPPFLAGS $GTK_CPPFLAGS $LIBCONFIGXX_CPPFLAGS"
 LIBS="$LDFLAGS"
 
 # Checks for header files.

@@ -8,7 +8,8 @@
 using std::string;
 
 struct gobj_icon: public gobj {
-	gobj_icon(const string &icon, const string &text, int x, int y);
+	gobj_icon(const string &icon, const string &text, int x, int y,
+		  uint32_t user_data);
 
 	virtual void draw(cairo_t *cr);
 private:

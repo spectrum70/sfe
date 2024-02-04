@@ -18,4 +18,6 @@
  */
 #include "gobj.hh"
 
-gobj::gobj(int x, int y) : x(x), y(y) {}
+gobj::gobj(int x, int y, uint32_t user_data) : x(x), y(y), user_data(user_data)
+{
+}
