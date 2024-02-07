@@ -5,6 +5,7 @@ sfe_CPPFLAGS=-Iinclude
 sfe_SOURCES = src/main.cc \
 		src/frm.cc \
 		src/frm_main.cc \
+		src/frm_owner.cc \
 		src/gobj.cc \
 		src/gobj_icon.cc \
 		src/path.cc \

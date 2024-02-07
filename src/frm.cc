@@ -19,7 +19,7 @@
 
 #include "frm.hh"
 
-frame::frame()
+frm::frm()
 {
 
 

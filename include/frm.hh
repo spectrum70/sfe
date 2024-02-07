@@ -1,8 +1,12 @@
 #ifndef frm_hh
 #define frm_hh
 
-struct frame {
-	frame();
+#include <gtk/gtk.h>
+
+struct frm {
+	frm();
+protected:
+	GtkWindow* window;
 };
 
 #endif /* frm_hh */

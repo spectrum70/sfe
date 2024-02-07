@@ -18,6 +18,7 @@
  */
 
 #include "frm_main.hh"
+#include "frm_owner.hh"
 #include "config.hh"
 #include "gobj_icon.hh"
 #include "sections.hh"
@@ -31,12 +32,12 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 {
 	GtkGesture *gc, *gd;
 	gobj *go;
+	string path, icon, icon_text;
+	int i, icon_x, icon_y;
 	config &cfg = config::get();
 
-
-	if (!cfg.load_config()) {
+	if (!cfg.load_config())
 		cfg.setup_defaults();
-	}
 
 	width = cfg.get_int("application.width");
 	height = cfg.get_int("application.height");
@@ -51,9 +52,6 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 
 	gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(drawing_area),
 				       on_draw_event, this, NULL);
-
-	string path, icon, icon_text;
-	int i, icon_x, icon_y;
 
 	for (i = 0; i < s_id_max; ++i) {
 		path = "sections.feature_" + tools::itoa(i);
@@ -201,13 +199,12 @@ void frm_main::on_mouse_click(GtkGestureClick* self,
 	frm_main *f = (frm_main *)data;
 
 	if (n_press == 2) {
-		int i = f->gobjs[0]->user_data;
-
-		msg << "on_mouse_double click " << i << "\n";
+		int id = f->get_object(x, y);
+		int i = f->gobjs[id]->user_data;
 
 		switch(i) {
-
+		case s_id_azienda:
+			new frm_owner(GTK_WINDOW(f->window));
 		}
-
 	}
 }
