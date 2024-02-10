@@ -18,10 +18,27 @@
  */
 
 #include "frm_owner.hh"
+#include "countries.hh"
+#include "trace.hh"
 
-frm_owner::frm_owner(GtkWindow *parent)
+char const *fields[] = {
+	"e_ragione_sociale",
+	"e_partita_iva",
+	"f_stato",
+	"e_indirizzo",
+	"e_n_civico",
+	"e_comune",
+	"e_provincia",
+	"e_email",
+	"e_telefono",
+	"e_banca",
+	"e_iban",
+	"e_bic_swift",
+};
+
+frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
 {
-	GtkBuilder *gb = gtk_builder_new_from_file(
+	gb = gtk_builder_new_from_file(
 			"/home/angelo/dev-kernelspace/sfe/forms/frm_owner.ui");
 
 	GObject* btn_cancel, *btn_save;
@@ -35,11 +52,42 @@ frm_owner::frm_owner(GtkWindow *parent)
 	g_signal_connect(btn_save, "clicked",
 				  G_CALLBACK (on_button_btn_save), this);
 
+	GtkFrame *f = (GtkFrame *)gtk_builder_get_object(gb, "f_stato");
+	dd_countries = (GtkDropDown *)gtk_drop_down_new_from_strings(countries);
+	gtk_frame_set_child(f, GTK_WIDGET(dd_countries));
+
 	gtk_window_present(GTK_WINDOW(window));
+
+	setup_fields();
 }
 
 frm_owner::~frm_owner()
 {
+}
+
+void frm_owner::setup_fields()
+{
+	string query;
+	rlist rl;
+	GObject *entry;
+	string data;
+	int i;
+
+	query = "SELECT * FROM dati_propria_azienda LIMIT 1";
+
+	if (db->db_query_with_result(query, rl))
+		err << "database query error\n";
+
+	for (i = 0; i < 12; ++i) {
+		if (i == 2)
+			continue;
+		data = rl.front()[i + 1];
+		entry = gtk_builder_get_object(gb, fields[i]);
+		gtk_entry_buffer_set_text(
+			gtk_entry_get_buffer(GTK_ENTRY(entry)),
+			data.c_str(), data.size());
+	}
+
 }
 
 void frm_owner::on_button_btn_cancel(GtkWidget *widget, gpointer data)
@@ -52,6 +100,26 @@ void frm_owner::on_button_btn_cancel(GtkWidget *widget, gpointer data)
 void frm_owner::on_button_btn_save(GtkWidget *widget, gpointer data)
 {
 	frm_owner *f = (frm_owner *)data;
+	GObject *entry;
+	string query;
+	int i;
+
+	query = "INSERT OR REPLACE INTO dati_propria_azienda VALUES (1";
+
+	for (i = 0; i < 12; ++i) {
+		query += ", '";
+
+		entry = gtk_builder_get_object(f->gb, fields[i]);
+		if (i != 2)
+			query += gtk_entry_buffer_get_text(
+				gtk_entry_get_buffer(GTK_ENTRY(entry)));
+		query += "'";
+	}
+
+	query += ");";
+
+	if (f->db->db_query_with_result(query))
+		err << "database query error\n";
 
 	gtk_window_close(f->window);
 }

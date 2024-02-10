@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Angleo Dureghello <angelo@kernel-space.org>
+ * Copyright (C) 2024 Angelo Dureghello <angelo@kernel-space.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

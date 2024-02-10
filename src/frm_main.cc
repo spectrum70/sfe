@@ -36,6 +36,11 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 	int i, icon_x, icon_y;
 	config &cfg = config::get();
 
+	if (db.db_create()) {
+		err << "cannot open/create database, exiting.\n";
+		exit(1);
+	}
+
 	if (!cfg.load_config())
 		cfg.setup_defaults();
 
@@ -204,7 +209,7 @@ void frm_main::on_mouse_click(GtkGestureClick* self,
 
 		switch(i) {
 		case s_id_azienda:
-			new frm_owner(GTK_WINDOW(f->window));
+			new frm_owner(GTK_WINDOW(f->window), &f->db);
 		}
 	}
 }

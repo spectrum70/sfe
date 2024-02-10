@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include "gobj.hh"
+#include "db_connector.hh"
 
 using std::vector;
 using std::shared_ptr;
@@ -42,6 +43,7 @@ struct frm_main {
 					gdouble x, gdouble y,
 					gpointer data);
 	static gboolean on_windows_close(GtkWindow* self, gpointer data);
+
 public:
 	int gobj_sel;
 	int gobj_drag_start_x;
@@ -51,6 +53,7 @@ public:
 private:
 	GtkWidget *drawing_area;
 	GtkWidget *window;
+	db_connector db;
 	vector<shared_ptr<gobj>> gobjs;
 };
 
