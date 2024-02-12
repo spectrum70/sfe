@@ -78,6 +78,9 @@ void frm_owner::setup_fields()
 	if (db->db_query_with_result(query, rl))
 		err << "database query error\n";
 
+	if (rl.size() == 0)
+		return;
+
 	for (i = 0; i < 12; ++i) {
 		if (i == 2)
 			continue;
