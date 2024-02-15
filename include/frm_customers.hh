@@ -15,8 +15,8 @@ struct frm_customers : public frm
 private:
 	void setup_fields();
 
-	static void on_button_btn_cancel(GtkWidget *widget, gpointer data);
-	static void on_button_btn_save(GtkWidget *widget, gpointer data);
+	static void on_button_btn_add_update(GtkWidget *widget, gpointer data);
+	static void on_button_btn_close(GtkWidget *widget, gpointer data);
 private:
 	GtkBuilder *gb;
 	GtkDropDown *dd_countries;

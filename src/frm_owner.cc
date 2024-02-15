@@ -21,7 +21,7 @@
 #include "countries.hh"
 #include "trace.hh"
 
-char const *fields[] = {
+static char const *fields[] = {
 	"e_ragione_sociale",
 	"e_partita_iva",
 	"f_stato",
