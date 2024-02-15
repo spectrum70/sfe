@@ -1,5 +1,5 @@
-#ifndef frm_owner_hh
-#define frm_owner_hh
+#ifndef frm_customers_hh
+#define frm_customers_hh
 
 #include <gtk/gtk.h>
 #include <gio/gio.h>
@@ -7,14 +7,13 @@
 #include "frm.hh"
 #include "db_connector.hh"
 
-struct frm_owner : public frm
+struct frm_customers : public frm
 {
-	frm_owner(GtkWindow *parent, db_connector *db);
-	~frm_owner();
+	frm_customers(GtkWindow *parent, db_connector *db);
+	~frm_customers();
 
 private:
 	void setup_fields();
-	void select_combo_item(GtkDropDown *dd, const char *item);
 
 	static void on_button_btn_cancel(GtkWidget *widget, gpointer data);
 	static void on_button_btn_save(GtkWidget *widget, gpointer data);
@@ -24,4 +23,4 @@ private:
 	db_connector *db;
 };
 
-#endif /* frm_owner */
+#endif /* frm_customers */

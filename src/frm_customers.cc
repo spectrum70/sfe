@@ -17,7 +17,7 @@
  * MA 02110-1301, USA.
  */
 
-#include "frm_owner.hh"
+#include "frm_customers.hh"
 #include "countries.hh"
 #include "trace.hh"
 
@@ -36,7 +36,7 @@ char const *fields[] = {
 	"e_bic_swift",
 };
 
-frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
+frm_owner::frm_customers(GtkWindow *parent, db_connector *db) : db(db)
 {
 	gb = gtk_builder_new_from_file(
 			"/home/angelo/dev-kernelspace/sfe/forms/frm_owner.ui");
@@ -61,23 +61,11 @@ frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
 	setup_fields();
 }
 
-frm_owner::~frm_owner()
+frm_owner::~frm_customers()
 {
 }
 
-void frm_owner::select_combo_item(GtkDropDown *dd, const char *item)
-{
-	int i;
-
-	for (i = 0; countries[i]; ++i) {
-		if (strcmp(item, countries[i]) == 0) {
-			gtk_drop_down_set_selected(dd, i);
-			break;
-		}
-	}
-}
-
-void frm_owner::setup_fields()
+void frm_customers::setup_fields()
 {
 	string query;
 	rlist rl;
@@ -94,14 +82,10 @@ void frm_owner::setup_fields()
 		return;
 
 	for (i = 0; i < 12; ++i) {
+		if (i == 2)
+			continue;
 		data = rl.front()[i + 1];
 		entry = gtk_builder_get_object(gb, fields[i]);
-
-		if (i == 2) {
-			select_combo_item(dd_countries, data.c_str());
-			continue;
-		}
-
 		gtk_entry_buffer_set_text(
 			gtk_entry_get_buffer(GTK_ENTRY(entry)),
 			data.c_str(), data.size());
@@ -109,14 +93,14 @@ void frm_owner::setup_fields()
 
 }
 
-void frm_owner::on_button_btn_cancel(GtkWidget *widget, gpointer data)
+void frm_customers::on_button_btn_cancel(GtkWidget *widget, gpointer data)
 {
 	frm_owner *f = (frm_owner *)data;
 
 	gtk_window_close(f->window);
 }
 
-void frm_owner::on_button_btn_save(GtkWidget *widget, gpointer data)
+void frm_cutomers::on_button_btn_save(GtkWidget *widget, gpointer data)
 {
 	frm_owner *f = (frm_owner *)data;
 	GObject *entry;
@@ -129,16 +113,9 @@ void frm_owner::on_button_btn_save(GtkWidget *widget, gpointer data)
 		query += ", '";
 
 		entry = gtk_builder_get_object(f->gb, fields[i]);
-		if (i == 2) {
-			GtkStringObject *so = (GtkStringObject *)
-				gtk_drop_down_get_selected_item(
-					f->dd_countries);
-			query += gtk_string_object_get_string(so);
-		} else {
+		if (i != 2)
 			query += gtk_entry_buffer_get_text(
 				gtk_entry_get_buffer(GTK_ENTRY(entry)));
-		}
-
 		query += "'";
 	}
 
