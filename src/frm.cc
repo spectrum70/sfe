@@ -21,6 +21,13 @@
 
 frm::frm()
 {
+}
 
+void frm::message(const string &msg)
+{
 
+	GtkAlertDialog *dialog = gtk_alert_dialog_new(msg.c_str());
+	gtk_alert_dialog_set_modal(dialog, 1);
+
+	gtk_alert_dialog_show(dialog, window);
 }

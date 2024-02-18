@@ -78,7 +78,7 @@ int db_connector::db_create()
 		"indirizzo TEXT NOT NULL,"
 		"numero_civico TEXT NOT NULL,"
 		"comune TEXT NOT NULL,"
-		"provincia TEXT NOT NULL,"
+		"cap TEXT NOT NULL,"
 		"email TEXT NOT NULL,"
 		"telefono TEXT NOT NULL"
 		");";
@@ -100,11 +100,14 @@ int db_connector::execl_callback(void *data_ptr, int count,
 	rlist *rl = (rlist *)data_ptr;
 	vector<string> v;
 
+	/* count = number of columns */
+
 	for (i = 0; i < count; i++) {
+		printf(data[i]);
 		v.push_back(data[i]);
 	}
 
-	rl->push_front(v);
+	rl->push_back(v);
 
 	return 0;
 }
@@ -113,6 +116,8 @@ int db_connector::db_query_with_result(const string &query, rlist &r_list)
 {
 	char *err_msg;
 	int rc;
+
+	printf("query with resllt\n");
 
 	rc = sqlite3_exec(db, query.c_str(), execl_callback, &r_list, &err_msg);
 	if (rc != SQLITE_OK) {

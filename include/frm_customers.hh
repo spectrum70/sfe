@@ -14,13 +14,19 @@ struct frm_customers : public frm
 
 private:
 	void setup_fields();
+	GListStore *setup_customers_model();
 
-	static void on_button_btn_add_update(GtkWidget *widget, gpointer data);
+	void select_combo_item(GtkDropDown *dd, const char *item);
+	int query_from_fields(frm_customers *f, const string &key);
+	static void on_button_btn_add_new(GtkWidget *widget, gpointer data);
+	static void on_button_btn_update(GtkWidget *widget, gpointer data);
 	static void on_button_btn_close(GtkWidget *widget, gpointer data);
 private:
 	GtkBuilder *gb;
 	GtkDropDown *dd_countries;
+	GtkColumnView *cv_clienti;
 	db_connector *db;
+	string pkey;
 };
 
 #endif /* frm_customers */
