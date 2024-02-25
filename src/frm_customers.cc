@@ -23,6 +23,7 @@
 #include "trace.hh"
 
 static constexpr int max_fields = 9;
+static constexpr int max_cols = 4;
 
 static char const *fields[max_fields] = {
 	"e_ragione_sociale",
@@ -43,8 +44,8 @@ struct _CustomerItem
 {
 	GObject parent;
 	const char *name;
-	const char *country;
 	const char *iva;
+	const char *country;
 	const char *address;
 };
 G_DEFINE_TYPE (CustomerItem, customer_item, G_TYPE_OBJECT)
@@ -54,10 +55,10 @@ static void customer_item_class_init(CustomerItemClass *cl) {}
 
 static const char* customer_item_get_name(CustomerItem *item)
 { return item->name; }
-static const char* customer_item_get_country(CustomerItem *item)
-{ return item->country; }
 static const char* customer_item_get_iva(CustomerItem *item)
 { return item->iva; }
+static const char* customer_item_get_country(CustomerItem *item)
+{ return item->country; }
 static const char* customer_item_get_address(CustomerItem *item)
 { return item->address; }
 
@@ -78,6 +79,16 @@ static void bind_name_cb(GtkSignalListItemFactory *factory,
 	gtk_label_set_text(GTK_LABEL (label), string);
 }
 
+static void bind_iva_cb(GtkSignalListItemFactory *factory,
+			GtkListItem *listitem)
+{
+	GtkWidget *label = gtk_list_item_get_child(listitem);
+	GObject *item =
+	(GObject *)gtk_list_item_get_item(GTK_LIST_ITEM(listitem));
+	const char *string = customer_item_get_iva(CUSTOMER_ITEM(item));
+	gtk_label_set_text(GTK_LABEL (label), string);
+}
+
 static void bind_country_cb(GtkSignalListItemFactory *factory,
 			 GtkListItem *listitem)
 {
@@ -85,16 +96,6 @@ static void bind_country_cb(GtkSignalListItemFactory *factory,
 	GObject *item =
 		(GObject *)gtk_list_item_get_item(GTK_LIST_ITEM(listitem));
 	const char *string = customer_item_get_country(CUSTOMER_ITEM(item));
-	gtk_label_set_text(GTK_LABEL (label), string);
-}
-
-static void bind_iva_cb(GtkSignalListItemFactory *factory,
-			    GtkListItem *listitem)
-{
-	GtkWidget *label = gtk_list_item_get_child(listitem);
-	GObject *item =
-		(GObject *)gtk_list_item_get_item(GTK_LIST_ITEM(listitem));
-	const char *string = customer_item_get_iva(CUSTOMER_ITEM(item));
 	gtk_label_set_text(GTK_LABEL (label), string);
 }
 
@@ -115,16 +116,50 @@ static void activate(GtkColumnView *self, guint n, gpointer p)
 	f->setup_fields(++n);
 }
 
+static struct c_col columns[max_cols] {
+	{G_CALLBACK(setup_cb), G_CALLBACK(bind_name_cb),  250,
+		"Ragione sociale"},
+	{G_CALLBACK(setup_cb), G_CALLBACK(bind_iva_cb),  110,
+		"P. IVA"},
+	{G_CALLBACK(setup_cb), G_CALLBACK(bind_country_cb),  130,
+		"Paese"},
+	{G_CALLBACK(setup_cb), G_CALLBACK(bind_address_cb),  260,
+		"Indirizzo"},
+};
+
+int frm_customers::add_new_column(struct c_col *c)
+{
+	GtkListItemFactory *factory;
+	GtkColumnViewColumn *column;
+
+	factory = gtk_signal_list_item_factory_new();
+	if (!factory)
+		return -1;
+
+	g_signal_connect(factory, "setup", G_CALLBACK(c->cb_setup), NULL);
+	g_signal_connect(factory, "bind", G_CALLBACK(c->cb_bind), NULL);
+
+	column = gtk_column_view_column_new(c->name, factory);
+	if (!column)
+		return -1;
+
+	gtk_column_view_column_set_resizable(column, 1);
+	gtk_column_view_column_set_fixed_width(column, c->width);
+	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
+	g_object_unref(column);
+
+	return 0;
+}
+
 frm_customers::frm_customers(GtkWindow *parent, db_connector *db) :
 db(db), pkey("1")
 {
-	GtkColumnViewColumn *column;
 	GtkSingleSelection *selection;
-	GtkListItemFactory *factory;
 	GtkWidget *scrolled_window;
 	GListStore *store;
 	GtkFrame *f;
 	GObject* btn_add_new, *btn_update, *btn_close;
+	int i;
 
 	gb = gtk_builder_new_from_file(
 		"/home/angelo/dev-kernelspace/sfe/forms/frm_customers.ui");
@@ -152,6 +187,9 @@ db(db), pkey("1")
 					GTK_SELECTION_MODEL(selection));
 	gtk_column_view_set_enable_rubberband(cv_clienti, 1);
 
+	for (i = 0; i < max_cols; ++i)
+		add_new_column(&columns[i]);
+
 	gtk_widget_set_size_request(GTK_WIDGET(f), -1, 180);
 
 	scrolled_window = gtk_scrolled_window_new();
@@ -162,41 +200,7 @@ db(db), pkey("1")
 	gtk_column_view_set_show_column_separators(GTK_COLUMN_VIEW(cv_clienti),
 						   TRUE);
 
-	factory = gtk_signal_list_item_factory_new();
-	g_signal_connect(factory, "setup", G_CALLBACK(setup_cb), NULL);
-	g_signal_connect(factory, "bind", G_CALLBACK(bind_name_cb), NULL);
-	column = gtk_column_view_column_new("Ragione sociale", factory);
-	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 230);
-	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
-	g_object_unref (column);
 
-	factory = gtk_signal_list_item_factory_new();
-	g_signal_connect(factory, "setup", G_CALLBACK(setup_cb), NULL);
-	g_signal_connect(factory, "bind", G_CALLBACK(bind_iva_cb), NULL);
-	column = gtk_column_view_column_new("Partita IVA", factory);
-	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 120);
-	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
-	g_object_unref (column);
-
-	factory = gtk_signal_list_item_factory_new();
-	g_signal_connect(factory, "setup", G_CALLBACK(setup_cb), NULL);
-	g_signal_connect(factory, "bind", G_CALLBACK(bind_country_cb), NULL);
-	column = gtk_column_view_column_new("Paese", factory);
-	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 130);
-	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
-	g_object_unref (column);
-
-	factory = gtk_signal_list_item_factory_new();
-	g_signal_connect(factory, "setup", G_CALLBACK(setup_cb), NULL);
-	g_signal_connect(factory, "bind", G_CALLBACK(bind_address_cb), NULL);
-	column = gtk_column_view_column_new("Indirizzo", factory);
-	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 300);
-	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
-	g_object_unref (column);
 
 	gtk_column_view_set_single_click_activate(cv_clienti, 1);
 	g_signal_connect(cv_clienti, "activate", G_CALLBACK(activate), this);
@@ -225,7 +229,7 @@ GListStore *frm_customers::setup_customers_model()
 	if (db->db_query_with_result(query, rl))
 		err << "database query error\n";
 
-	for (it = rl.begin(); it != rl.end(); ++it) {
+	for (last = 0, it = rl.begin(); it != rl.end(); ++it) {
 		vector<string> &v = (*it);
 
 		item = (CustomerItem *)g_object_new(CUSTOMER_TYPE_ITEM, NULL);
@@ -236,6 +240,8 @@ GListStore *frm_customers::setup_customers_model()
 		item->address = g_strdup(v[4].c_str());
 
 		g_list_store_append(store, item);
+
+		last++;
 	}
 
 	return store;
@@ -260,6 +266,8 @@ void frm_customers::setup_fields(guint n)
 	GObject *entry;
 	string data;
 	int i;
+
+	selected = n;
 
 	/*
 	 * Displaying the first, always
@@ -288,14 +296,14 @@ void frm_customers::setup_fields(guint n)
 	}
 }
 
-int frm_customers::query_from_fields(frm_customers *f, const string &key)
+int frm_customers::query_from_fields(frm_customers *f, int n)
 {
 	string query;
 	int i;
 	GObject *entry;
 
 	query = "INSERT OR REPLACE INTO anagrafica_clienti VALUES ("
-		+ key + " ";
+		+ tools::itoa(n) + " ";
 
 	for (i = 0; i < max_fields; ++i) {
 		query += ", '";
@@ -328,19 +336,31 @@ void frm_customers::on_button_btn_add_new(GtkWidget *widget, gpointer data)
 {
 	frm_customers *f = (frm_customers *)data;
 
-	if (f->query_from_fields(f, "2")) {
+	if (f->query_from_fields(f, f->last + 1)) {
 		f->message("SWLite query error");
 		return;
 	}
 
-	string mesg("Item properly ");
-	mesg += ((f->pkey == "2") ? "inserted" : "updated");
+	string mesg("Item properly added.");
 
+	f->last++;
 	f->message(mesg);
 }
 
 void frm_customers::on_button_btn_update(GtkWidget *widget, gpointer data)
 {
+	frm_customers *f = (frm_customers *)data;
+
+	if (f->query_from_fields(f, f->selected)) {
+		f->message("SWLite query error");
+		return;
+	}
+
+	string mesg("Item properly updated.");
+	f->message(mesg);
+
+	/* Rebuild the list */
+	f->setup_customers_model();
 }
 
 void frm_customers::on_button_btn_close(GtkWidget *widget, gpointer data)

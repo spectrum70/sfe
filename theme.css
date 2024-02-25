@@ -1,18 +1,33 @@
 
-columnview.view header button { color: #101010; background: yellow; font-weight: bold; }
+/* ColumnView header bar are buttons */
+columnview.view button {
+	color: cyan;
+	background-color: #404000;
+	font-weight: bold; 
+}
 
-columnview.view row { line-height: 12px; }
+columnview.view row {
+	line-height: 10px;
+}
 
-columnview.view row:nth-child(even) { background-color: #202020; }
-
-
-/*columnview.view column button { text-align: left; }
-
+/*
+columnview.view row:nth-child(even) {
+	background-color: #202020;
+}
 */
 
+columnview.view row:active, columnview.view row:focus { 
+	background-color: #808010;
+	color: black;
+}
+
+/*
+ * columnview.view column button { text-align: left; }
+ */
 
 button {
 	color: black;
  	background: yellow;  
 }
+
 

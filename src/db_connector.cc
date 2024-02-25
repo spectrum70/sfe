@@ -103,7 +103,6 @@ int db_connector::execl_callback(void *data_ptr, int count,
 	/* count = number of columns */
 
 	for (i = 0; i < count; i++) {
-		printf(data[i]);
 		v.push_back(data[i]);
 	}
 
@@ -116,8 +115,6 @@ int db_connector::db_query_with_result(const string &query, rlist &r_list)
 {
 	char *err_msg;
 	int rc;
-
-	printf("query with resllt\n");
 
 	rc = sqlite3_exec(db, query.c_str(), execl_callback, &r_list, &err_msg);
 	if (rc != SQLITE_OK) {
