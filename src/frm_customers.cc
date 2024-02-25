@@ -19,6 +19,7 @@
 
 #include "frm_customers.hh"
 #include "countries.hh"
+#include "utils.hh"
 #include "trace.hh"
 
 static constexpr int max_fields = 9;
@@ -60,9 +61,10 @@ static const char* customer_item_get_iva(CustomerItem *item)
 static const char* customer_item_get_address(CustomerItem *item)
 { return item->address; }
 
-static void setup_cb(GtkSignalListItemFactory *factory,GObject  *listitem)
+static void setup_cb(GtkSignalListItemFactory *factory, GObject *listitem)
 {
 	GtkWidget *label = gtk_label_new(NULL);
+	gtk_widget_set_halign(label, GTK_ALIGN_START);
 	gtk_list_item_set_child(GTK_LIST_ITEM(listitem),label);
 }
 
@@ -108,7 +110,9 @@ static void bind_address_cb(GtkSignalListItemFactory *factory,
 
 static void activate(GtkColumnView *self, guint n, gpointer p)
 {
-	printf("ACTIVATE\n");
+	frm_customers *f = (frm_customers *)p;
+
+	f->setup_fields(++n);
 }
 
 frm_customers::frm_customers(GtkWindow *parent, db_connector *db) :
@@ -146,8 +150,9 @@ db(db), pkey("1")
 	selection = gtk_single_selection_new(G_LIST_MODEL(store));
 	cv_clienti = (GtkColumnView *)gtk_column_view_new(
 					GTK_SELECTION_MODEL(selection));
+	gtk_column_view_set_enable_rubberband(cv_clienti, 1);
 
-	gtk_widget_set_size_request(GTK_WIDGET(f), -1, 200);
+	gtk_widget_set_size_request(GTK_WIDGET(f), -1, 180);
 
 	scrolled_window = gtk_scrolled_window_new();
 	gtk_frame_set_child(f, GTK_WIDGET(scrolled_window));
@@ -162,7 +167,7 @@ db(db), pkey("1")
 	g_signal_connect(factory, "bind", G_CALLBACK(bind_name_cb), NULL);
 	column = gtk_column_view_column_new("Ragione sociale", factory);
 	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 300);
+	gtk_column_view_column_set_fixed_width(column, 230);
 	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
 	g_object_unref (column);
 
@@ -171,7 +176,7 @@ db(db), pkey("1")
 	g_signal_connect(factory, "bind", G_CALLBACK(bind_iva_cb), NULL);
 	column = gtk_column_view_column_new("Partita IVA", factory);
 	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 150);
+	gtk_column_view_column_set_fixed_width(column, 120);
 	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
 	g_object_unref (column);
 
@@ -180,7 +185,7 @@ db(db), pkey("1")
 	g_signal_connect(factory, "bind", G_CALLBACK(bind_country_cb), NULL);
 	column = gtk_column_view_column_new("Paese", factory);
 	gtk_column_view_column_set_resizable(column, 1);
-	gtk_column_view_column_set_fixed_width(column, 150);
+	gtk_column_view_column_set_fixed_width(column, 130);
 	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
 	g_object_unref (column);
 
@@ -193,11 +198,12 @@ db(db), pkey("1")
 	gtk_column_view_append_column(GTK_COLUMN_VIEW(cv_clienti), column);
 	g_object_unref (column);
 
-	g_signal_connect(cv_clienti, "activate", G_CALLBACK(activate), NULL);
+	gtk_column_view_set_single_click_activate(cv_clienti, 1);
+	g_signal_connect(cv_clienti, "activate", G_CALLBACK(activate), this);
 
 	gtk_window_present(GTK_WINDOW(window));
 
-	setup_fields();
+	setup_fields(1);
 }
 
 frm_customers::~frm_customers()
@@ -247,7 +253,7 @@ void frm_customers::select_combo_item(GtkDropDown *dd, const char *item)
 	}
 }
 
-void frm_customers::setup_fields()
+void frm_customers::setup_fields(guint n)
 {
 	string query;
 	rlist rl;
@@ -258,7 +264,8 @@ void frm_customers::setup_fields()
 	/*
 	 * Displaying the first, always
 	 */
-	query = "SELECT * FROM anagrafica_clienti LIMIT 1";
+	query = "SELECT * FROM anagrafica_clienti WHERE id=";
+	query += tools::itoa(n);
 
 	if (db->db_query_with_result(query, rl))
 		err << "database query error\n";

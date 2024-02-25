@@ -1,0 +1,18 @@
+
+columnview.view header button { color: #101010; background: yellow; font-weight: bold; }
+
+columnview.view row { line-height: 12px; }
+
+columnview.view row:nth-child(even) { background-color: #202020; }
+
+
+/*columnview.view column button { text-align: left; }
+
+*/
+
+
+button {
+	color: black;
+ 	background: yellow;  
+}
+

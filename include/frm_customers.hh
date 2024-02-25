@@ -12,8 +12,9 @@ struct frm_customers : public frm
 	frm_customers(GtkWindow *parent, db_connector *db);
 	~frm_customers();
 
+	void setup_fields(guint n);
+
 private:
-	void setup_fields();
 	GListStore *setup_customers_model();
 
 	void select_combo_item(GtkDropDown *dd, const char *item);

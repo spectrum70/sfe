@@ -21,6 +21,12 @@
 
 static void activate(GtkApplication* app, gpointer user_data)
 {
+	GtkCssProvider *css_provider = gtk_css_provider_new();
+	gtk_css_provider_load_from_path(css_provider, "theme.css");
+	gtk_style_context_add_provider_for_display(gdk_display_get_default(),
+				GTK_STYLE_PROVIDER(css_provider),
+				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
 	new frm_main(app);
 }
 
@@ -31,6 +37,7 @@ int main(int argc, char **argv)
 
 	app = gtk_application_new("org.gtk.sfe", G_APPLICATION_DEFAULT_FLAGS);
 	g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
+
 	status = g_application_run(G_APPLICATION(app), argc, argv);
 	g_object_unref(app);
 
