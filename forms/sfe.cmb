@@ -77,10 +77,12 @@
 	(4,36,"GtkBox",None,2,None,None,None,6,None),
 	(4,37,"GtkButton","btn_add_new",36,None,None,None,None,None),
 	(4,38,"GtkFixed",None,36,None,None,None,1,None),
-	(4,39,"GtkButton","btn_close",36,None,None,None,4,None),
+	(4,39,"GtkButton","btn_close",36,None,None,None,6,None),
 	(4,40,"GtkFrame","f_clienti",28,None,None,None,None,None),
 	(4,41,"GtkFixed",None,36,None,None,None,3,None),
-	(4,42,"GtkButton","btn_update",36,None,None,None,2,None)
+	(4,42,"GtkButton","btn_update",36,None,None,None,2,None),
+	(4,43,"GtkButton","btn_remove",36,None,None,None,4,None),
+	(4,44,"GtkFixed",None,36,None,None,None,5,None)
   </object>
   <object_property>
 	(1,49,"GtkWidget","receives-default","True",None,None,None,None,None,None,None,None,None),
@@ -257,6 +259,7 @@
 	(4,36,"GtkWidget","halign","end",None,None,None,None,None,None,None,None,None),
 	(4,36,"GtkWidget","margin-top","21",None,None,None,None,None,None,None,None,None),
 	(4,37,"GtkButton","label","Add new",None,None,None,None,None,None,None,None,None),
+	(4,37,"GtkWidget","css-classes","btn-add-new",None,None,None,None,None,None,None,None,None),
 	(4,37,"GtkWidget","margin-end","12",None,None,None,None,None,None,None,None,None),
 	(4,38,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
 	(4,38,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
@@ -270,6 +273,13 @@
 	(4,41,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
 	(4,41,"GtkWidget","margin-end","10",None,None,None,None,None,None,None,None,None),
 	(4,42,"GtkButton","label","Update current",None,None,None,None,None,None,None,None,None),
-	(4,42,"GtkWidget","margin-end","12",None,None,None,None,None,None,None,None,None)
+	(4,42,"GtkWidget","css-classes","btn-update",None,None,None,None,None,None,None,None,None),
+	(4,42,"GtkWidget","margin-end","12",None,None,None,None,None,None,None,None,None),
+	(4,43,"GtkButton","label","Remove current",None,None,None,None,None,None,None,None,None),
+	(4,43,"GtkWidget","css-classes","btn-remove",None,None,None,None,None,None,None,None,None),
+	(4,43,"GtkWidget","margin-end","12",None,None,None,None,None,None,None,None,None),
+	(4,44,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(4,44,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(4,44,"GtkWidget","margin-end","10",None,None,None,None,None,None,None,None,None)
   </object_property>
 </cambalache-project>

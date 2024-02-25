@@ -158,7 +158,7 @@ db(db), pkey("1")
 	GtkWidget *scrolled_window;
 	GListStore *store;
 	GtkFrame *f;
-	GObject* btn_add_new, *btn_update, *btn_close;
+	GObject* btn_add_new, *btn_update, *btn_close, *btn_remove;
 	int i;
 
 	gb = gtk_builder_new_from_file(
@@ -167,12 +167,15 @@ db(db), pkey("1")
 	window = (GtkWindow *)gtk_builder_get_object(gb, "frm_customers");
 	btn_add_new = gtk_builder_get_object(gb, "btn_add_new");
 	btn_update = gtk_builder_get_object(gb, "btn_update");
+	btn_remove = gtk_builder_get_object(gb, "btn_remove");
 	btn_close = gtk_builder_get_object(gb, "btn_close");
 
 	g_signal_connect(btn_add_new, "clicked",
 				G_CALLBACK(on_button_btn_add_new), this);
 	g_signal_connect(btn_update, "clicked",
 				G_CALLBACK(on_button_btn_update), this);
+	g_signal_connect(btn_remove, "clicked",
+				G_CALLBACK(on_button_btn_remove), this);
 	g_signal_connect(btn_close, "clicked",
 				G_CALLBACK(on_button_btn_close), this);
 
@@ -200,8 +203,6 @@ db(db), pkey("1")
 	gtk_column_view_set_show_column_separators(GTK_COLUMN_VIEW(cv_clienti),
 						   TRUE);
 
-
-
 	gtk_column_view_set_single_click_activate(cv_clienti, 1);
 	g_signal_connect(cv_clienti, "activate", G_CALLBACK(activate), this);
 
@@ -217,12 +218,15 @@ frm_customers::~frm_customers()
 GListStore *frm_customers::setup_customers_model()
 {
 	CustomerItem *item;
-	GListStore *store;
+	static GListStore *store  = g_list_store_new(G_TYPE_OBJECT);
 	string query;
 	rlist rl;
 	rlist::iterator it;
 
-	store = g_list_store_new(G_TYPE_OBJECT);
+	if (!store)
+		return 0;
+
+	g_list_store_remove_all(store);
 
 	query = "SELECT * FROM anagrafica_clienti";
 
@@ -262,9 +266,9 @@ void frm_customers::select_combo_item(GtkDropDown *dd, const char *item)
 void frm_customers::setup_fields(guint n)
 {
 	string query;
+	string data;
 	rlist rl;
 	GObject *entry;
-	string data;
 	int i;
 
 	selected = n;
@@ -272,8 +276,8 @@ void frm_customers::setup_fields(guint n)
 	/*
 	 * Displaying the first, always
 	 */
-	query = "SELECT * FROM anagrafica_clienti WHERE id=";
-	query += tools::itoa(n);
+	query = "SELECT * FROM anagrafica_clienti WHERE id="
+		+ tools::itoa(n) + ";";
 
 	if (db->db_query_with_result(query, rl))
 		err << "database query error\n";
@@ -345,6 +349,9 @@ void frm_customers::on_button_btn_add_new(GtkWidget *widget, gpointer data)
 
 	f->last++;
 	f->message(mesg);
+
+	/* Rebuild the list */
+	f->setup_customers_model();
 }
 
 void frm_customers::on_button_btn_update(GtkWidget *widget, gpointer data)
@@ -358,6 +365,22 @@ void frm_customers::on_button_btn_update(GtkWidget *widget, gpointer data)
 
 	string mesg("Item properly updated.");
 	f->message(mesg);
+
+	/* Rebuild the list */
+	f->setup_customers_model();
+}
+
+void frm_customers::on_button_btn_remove(GtkWidget *widget, gpointer data)
+{
+	frm_customers *f = (frm_customers *)data;
+
+	string query = "DELETE FROM anagrafica_clienti WHERE id="
+			+ tools::itoa(f->selected) + ";";
+
+	if (f->db->db_query_with_result(query)) {
+		err << "database query error\n";
+		return;
+	}
 
 	/* Rebuild the list */
 	f->setup_customers_model();

@@ -30,6 +30,7 @@ private:
 	int query_from_fields(frm_customers *f, int idx);
 	static void on_button_btn_add_new(GtkWidget *widget, gpointer data);
 	static void on_button_btn_update(GtkWidget *widget, gpointer data);
+	static void on_button_btn_remove(GtkWidget *widget, gpointer data);
 	static void on_button_btn_close(GtkWidget *widget, gpointer data);
 
 	int add_new_column(struct c_col *c);
