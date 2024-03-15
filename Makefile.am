@@ -7,6 +7,7 @@ sfe_SOURCES = src/main.cc \
 		src/frm_main.cc \
 		src/frm_owner.cc \
 		src/frm_customers.cc \
+		src/frm_invoice.cc \
 		src/gobj.cc \
 		src/gobj_icon.cc \
 		src/path.cc \

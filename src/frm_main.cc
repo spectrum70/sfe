@@ -20,6 +20,7 @@
 #include "frm_main.hh"
 #include "frm_owner.hh"
 #include "frm_customers.hh"
+#include "frm_invoice.hh"
 #include "config.hh"
 #include "gobj_icon.hh"
 #include "sections.hh"
@@ -214,6 +215,9 @@ void frm_main::on_mouse_click(GtkGestureClick* self,
 			break;
 		case s_id_ana_cli:
 			new frm_customers(GTK_WINDOW(f->window), &f->db);
+			break;
+		case s_id_em_fatt:
+			new frm_invoice(GTK_WINDOW(f->window), &f->db);
 			break;
 		}
 	}
