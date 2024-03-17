@@ -18,50 +18,28 @@
  */
 
 #include "frm_invoice.hh"
+#include "latex.hh"
 #include "trace.hh"
 
 frm_invoice::frm_invoice(GtkWindow *parent, db_connector *db) : db(db)
 {
-	GObject* btn_cancel, *btn_save;
-	GtkFrame *f;
-	GtkDropDown *dd;
-	rlist rl;
-	string query;
+	GObject *btn_gen_cart, *btn_save, *btn_close;
 
 	gb = gtk_builder_new_from_file(
 		"/home/angelo/dev-kernelspace/sfe/forms/frm_invoice.ui");
 
+	btn_gen_cart = gtk_builder_get_object(gb, "btn_gen_cart");
+	btn_save = gtk_builder_get_object(gb, "btn_save");
+	btn_close =  gtk_builder_get_object(gb, "btn_close");
+
+	g_signal_connect(btn_gen_cart, "clicked",
+			 G_CALLBACK(on_button_btn_gen_cart), this);
+	g_signal_connect(btn_close, "clicked",
+			 G_CALLBACK(on_button_btn_close), this);
+	g_signal_connect(btn_save, "clicked",
+			 G_CALLBACK(on_button_btn_save), this);
+
 	window = (GtkWindow *)gtk_builder_get_object(gb, "frm_invoice");
-
-	f = (GtkFrame *)gtk_builder_get_object(gb, "f_cliente");
-
-	query = "SELECT * FROM anagrafica_clienti";
-
-	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
-
-	char **clienti = new char *[rl.size()];
-	for(int i = 0; i < rl.size(); ++i) {
-		clienti[i] = new char[255];
-	}
-
-	int i = 0;
-	for (auto v: rl) {
-		strcpy(clienti[i++], v[1].c_str());
-	}
-
-	dd = (GtkDropDown *)gtk_drop_down_new_from_strings(clienti);
-	gtk_frame_set_child(f, GTK_WIDGET(dd));
-
-	//btn_cancel = gtk_builder_get_object(gb, "btn_cancel");
-	//btn_save = gtk_builder_get_object(gb, "btn_save");
-
-	//g_signal_connect(btn_cancel, "clicked",
-	//			  G_CALLBACK (on_button_btn_cancel), this);
-	//g_signal_connect(btn_save, "clicked",
-	//			  G_CALLBACK (on_button_btn_save), this);
-
-	//GtkFrame *f = (GtkFrame *)gtk_builder_get_object(gb, "f_stato");
 
 	gtk_window_present(GTK_WINDOW(window));
 
@@ -72,12 +50,26 @@ frm_invoice::~frm_invoice()
 {
 }
 
+void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
+{
+	//frm_invoice *f = (frm_invoice *)data;
+
+	latex l;
+
+	l.generate_invoice();
+}
+
 void frm_invoice::setup_fields()
 {
-	string query = "SELECT * FROM dati_propria_azienda LIMIT 1";
+	GtkFrame *f;
+	GtkDropDown *dd;
+	GtkLabel *label;
+	string query;
 	rlist rl;
-	int i;
+	size_t i;
 	string dati;
+
+	query = "SELECT * FROM dati_propria_azienda LIMIT 1";
 
 	if (db->db_query_with_result(query, rl))
 		err << "database query error\n";
@@ -85,24 +77,48 @@ void frm_invoice::setup_fields()
 	if (rl.size() == 0)
 		return;
 
-	GtkLabel *label = (GtkLabel *)gtk_builder_get_object
-					(gb, "l_dati_aziendali");
+	label = (GtkLabel *)gtk_builder_get_object(gb, "l_dati_aziendali");
 
 	gtk_label_set_justify(label, GTK_JUSTIFY_LEFT);
 
 	vector<string> vs = *rl.begin();
 
 	for (i = 1; i < vs.size(); ++i) {
+		if (i == 2)
+			dati += "P. IVA: ";
 		dati += vs[i];
-		dati += "\n";
+		if (i != 4 && i != 6)
+			dati += "\n";
+		else
+			dati += " ";
 	}
 
 	gtk_label_set_text(GTK_LABEL(label), dati.c_str());
 
+	f = (GtkFrame *)gtk_builder_get_object(gb, "f_cliente");
 
+	query = "SELECT * FROM anagrafica_clienti";
+
+	if (db->db_query_with_result(query, rl))
+		err << "database query error\n";
+
+	char **clienti = new char *[rl.size() + 1];
+	for (i = 0; i < rl.size(); ++i) {
+		clienti[i] = new char[255];
+	}
+	/* 0 terminated. mandatory */
+	clienti[i] = 0;
+
+	i = 0;
+	for (auto const &v: rl) {
+		strcpy(clienti[i++], v[1].c_str());
+	}
+
+	dd = (GtkDropDown *)gtk_drop_down_new_from_strings(clienti);
+	gtk_frame_set_child(f, GTK_WIDGET(dd));
 }
 
-void frm_invoice::on_button_btn_cancel(GtkWidget *widget, gpointer data)
+void frm_invoice::on_button_btn_close(GtkWidget *widget, gpointer data)
 {
 	frm_invoice *f = (frm_invoice *)data;
 
@@ -112,9 +128,9 @@ void frm_invoice::on_button_btn_cancel(GtkWidget *widget, gpointer data)
 void frm_invoice::on_button_btn_save(GtkWidget *widget, gpointer data)
 {
 	frm_invoice *f = (frm_invoice *)data;
-	GObject *entry;
-	string query;
-	int i;
+	//GObject *entry;
+	//string query;
+	//int i;
 
 	/*query = "INSERT OR REPLACE INTO dati_propria_azienda VALUES (1";
 

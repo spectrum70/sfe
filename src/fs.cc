@@ -27,6 +27,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <pwd.h>
+#include <cstring>
 
 fs::fs()
 {
@@ -69,3 +70,23 @@ vector<string> fs::dir(const char *path)
 
 	return v;
 }
+
+int fs::create_tmp_file(char *tmp_name, char *content)
+{
+	int temp = mkstemp(tmp_name);
+
+	printf("writing on tmp file\n");
+
+	if (temp) {
+		write(temp, content, strlen(content));
+
+
+		close(temp);
+
+		return 0;
+	}
+
+
+	return -1;
+}
+

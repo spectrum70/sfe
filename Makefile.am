@@ -14,4 +14,5 @@ sfe_SOURCES = src/main.cc \
 		src/config.cc \
 		src/utils.cc \
 		src/fs.cc \
-		src/db_connector.cc
+		src/db_connector.cc \
+		src/latex.cc

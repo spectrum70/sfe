@@ -116,6 +116,8 @@ int db_connector::db_query_with_result(const string &query, rlist &r_list)
 	char *err_msg;
 	int rc;
 
+	r_list.clear();
+
 	rc = sqlite3_exec(db, query.c_str(), execl_callback, &r_list, &err_msg);
 	if (rc != SQLITE_OK) {
 		err << "SQL error: " << err_msg << "\n";

@@ -15,8 +15,9 @@ struct frm_invoice : public frm
 private:
 	void setup_fields();
 
-	static void on_button_btn_cancel(GtkWidget *widget, gpointer data);
 	static void on_button_btn_save(GtkWidget *widget, gpointer data);
+	static void on_button_btn_gen_cart(GtkWidget *widget, gpointer data);
+	static void on_button_btn_close(GtkWidget *widget, gpointer data);
 private:
 	GtkBuilder *gb;
 	db_connector *db;
