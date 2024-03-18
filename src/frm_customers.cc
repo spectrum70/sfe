@@ -22,12 +22,15 @@
 #include "utils.hh"
 #include "trace.hh"
 
-static constexpr int max_fields = 9;
+static constexpr int max_fields = 12;
 static constexpr int max_cols = 4;
 
 static char const *fields[max_fields] = {
 	"e_ragione_sociale",
 	"e_partita_iva",
+	"e_cf",
+	"e_codice_dest",
+	"e_pec",
 	"f_stato",
 	"e_indirizzo",
 	"e_n_civico",
