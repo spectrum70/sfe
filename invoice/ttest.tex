@@ -1,0 +1,94 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[a4paper,hmargin=0.49in,vmargin=0.89in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage{fp}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr, xcolor}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+
+\pagestyle{empty} % No page numbers
+\pagestyle{fancy}
+\linespread{1.2} % Line spacing
+\fancyhf{}
+\definecolor{lightblue}{rgb}{0.89, 0.89, 0.95}
+
+\newcounter{cnt}
+\setcounter{cnt}{0}
+\def\inc{\stepcounter{cnt}\thecnt}
+\gdef\TotalHT{0}
+\newcommand{\product}[4]{%
+\inc &#1  &#2  &#3  &#4 &\FPmul\temp{#2}{#3}\FPround\temp{\temp}{2}\temp 
+%% Totalize
+\FPadd\total{\TotalHT}{\temp}%
+\FPround\total{\total}{2}%
+\global\let\TotalHT\total%
+\\ }
+\newcommand{\totalttc}{
+   \TotalHT  }
+
+% header
+\fancyhead[L]{\noindent\break\break\colorbox{lightblue}{%
+  \makebox[\dimexpr\linewidth-2\fboxsep][l]{\color{black}%
+  \Huge\bf Fattura ordinaria
+  \hfill
+  }%
+}}
+\fancyfoot[C]{\small \textbf {SFE} - an opensource invoicing software - (C) 2024 - Kernelspace}
+
+\begin{document}
+\noindent\break\break
+\begin{minipage}[t]{0.38\textwidth}
+	\textbf{Data:} 30.12.2024\\
+	\textbf{N.:} 2/2024\\
+\end{minipage}
+\noindent\break\break\break
+\begin{minipage}[t]{0.38\textwidth}
+	\textbf{Emessa da}\\
+	\textbf{Kernelspace}\\%if1
+	P. IVA: 01142570322\\
+	Via San Nazario 149\\
+	34151 Trieste TS, Italy\\
+	+39 388 8550663\\
+	angelo@kernel-space.org\\
+\end{minipage}
+\begin{minipage}[t]{0.03\textwidth}
+	~
+\end{minipage}
+\begin{minipage}[t]{0.56\textwidth}
+	\textbf{Cessionario/committente}\\
+	\textbf{Wile E. Coyote} % Payee name
+	
+	1 Monument Valley \\ % Payee contact lines
+	Arizona, United States \\
+	\href{mailto:wile.e.coyote@latextemplates.com}{wile.e.coyote@latextemplates.com} % Payee email
+\end{minipage}
+\noindent\break\break
+\begin{longtable}{ || l | p{7.8cm} | r | r | r || r || }
+\hline
+\bf N.   &\bf Descrizione &\bf Prezzo &\bf Quantità &\bf I.V.A. &\bf Totale\\
+\hline
+\hline
+    \product{Computer peripherals}{1000.00}{1}{0,00}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+    \product{}{}{}{}
+\hline
+\hline
+    &&&&&\bf Total \totalttc\\
+\hline
+\end{longtable}\hfill\\
+\textbf{Payment due:} as agreed by the parts.\\
+\textbf{Payment method:} IBAN IT000000000000000\\
+\textbf{Bank:} CRFVG Trieste\\
+\break
+\underline{\textbf{THANKS}}
+\end{document}
