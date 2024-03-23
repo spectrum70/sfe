@@ -23,18 +23,23 @@
 
 static char const *fields[] = {
 	"e_ragione_sociale",
+	"e_pec",
 	"e_partita_iva",
+	"e_cf",
 	"f_stato",
 	"e_indirizzo",
 	"e_n_civico",
 	"e_comune",
-	"e_provincia",
+	"e_cap",
 	"e_email",
 	"e_telefono",
 	"e_banca",
 	"e_iban",
 	"e_bic_swift",
 };
+
+static constexpr int max_fields = 14;
+static constexpr int pos_stato = 4;
 
 frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
 {
@@ -93,11 +98,11 @@ void frm_owner::setup_fields()
 	if (rl.size() == 0)
 		return;
 
-	for (i = 0; i < 12; ++i) {
+	for (i = 0; i < max_fields; ++i) {
 		data = rl.front()[i + 1];
 		entry = gtk_builder_get_object(gb, fields[i]);
 
-		if (i == 2) {
+		if (i == pos_stato) {
 			select_combo_item(dd_countries, data.c_str());
 			continue;
 		}
@@ -125,11 +130,11 @@ void frm_owner::on_button_btn_save(GtkWidget *widget, gpointer data)
 
 	query = "INSERT OR REPLACE INTO dati_propria_azienda VALUES (1";
 
-	for (i = 0; i < 12; ++i) {
+	for (i = 0; i < max_fields; ++i) {
 		query += ", '";
 
 		entry = gtk_builder_get_object(f->gb, fields[i]);
-		if (i == 2) {
+		if (i == pos_stato) {
 			GtkStringObject *so = (GtkStringObject *)
 				gtk_drop_down_get_selected_item(
 					f->dd_countries);

@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <pwd.h>
 #include <cstring>
+#include <fstream>
 
 fs::fs()
 {
@@ -50,6 +51,25 @@ bool fs::is_dir(const char *name)
 	}
 
 	return false;
+}
+
+size_t fs::get_files_size(const char *path)
+{
+	std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
+
+	return (size_t)in.tellg();
+}
+
+bool fs::load_to_memory(const char *path, string &mem)
+{
+	std::ifstream in(path, std::ifstream::binary);
+	size_t size = get_files_size(path);
+
+	mem.resize(size);
+
+	in.read(&mem[0], size);
+
+	return true;
 }
 
 vector<string> fs::dir(const char *path)

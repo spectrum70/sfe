@@ -8,12 +8,19 @@
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{verbatim}
+
+\makeatletter
+\newcommand{\verbatimfont}[1]{\def\verbatim@font{#1}}%
+\makeatother
 
 \pagestyle{empty} % No page numbers
 \pagestyle{fancy}
 \linespread{1.2} % Line spacing
 \fancyhf{}
 \definecolor{lightblue}{rgb}{0.89, 0.89, 0.95}
+
+\verbatimfont{\rmfamily}
 
 \newcounter{cnt}
 \setcounter{cnt}{0}
@@ -41,29 +48,22 @@
 \begin{document}
 \noindent\break\break
 \begin{minipage}[t]{0.38\textwidth}
-	\textbf{Data:} 30.12.2024\\
-	\textbf{N.:} 2/2024\\
+	\textbf{Data: }\textbf{}\\%rf_data
+	\textbf{N.: }\textbf{}\\%rf_n
 \end{minipage}
 \noindent\break\break\break
 \begin{minipage}[t]{0.38\textwidth}
-	\textbf{Emessa da}\\
-	\textbf{Kernelspace}\\%if1
-	P. IVA: 01142570322\\
-	Via San Nazario 149\\
-	34151 Trieste TS, Italy\\
-	+39 388 8550663\\
-	angelo@kernel-space.org\\
+	\textbf{Emessa da}
+	\begin{verbatim}
+	\end{verbatim}%rf_issued_from
 \end{minipage}
 \begin{minipage}[t]{0.03\textwidth}
 	~
 \end{minipage}
 \begin{minipage}[t]{0.56\textwidth}
-	\textbf{Cessionario/committente}\\
-	\textbf{Wile E. Coyote} % Payee name
-	
-	1 Monument Valley \\ % Payee contact lines
-	Arizona, United States \\
-	\href{mailto:wile.e.coyote@latextemplates.com}{wile.e.coyote@latextemplates.com} % Payee email
+	\textbf{Cessionario/committente}
+	\begin{verbatim}
+	\end{verbatim}\\%rf_issued_to
 \end{minipage}
 \noindent\break\break
 \begin{longtable}{ || l | p{7.8cm} | r | r | r || r || }
@@ -87,8 +87,8 @@
 \hline
 \end{longtable}\hfill\\
 \textbf{Payment due:} as agreed by the parts.\\
-\textbf{Payment method:} IBAN IT000000000000000\\
-\textbf{Bank:} CRFVG Trieste\\
+\textbf{Payment method:} {IBAN IT000000000000000}\\%rf_my_iban
+\textbf{Bank:} {CRFVG Trieste}\\%rf_my_bank
 \break
 \underline{\textbf{THANKS}}
 \end{document}

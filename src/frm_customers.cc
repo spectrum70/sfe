@@ -27,18 +27,20 @@ static constexpr int max_cols = 4;
 
 static char const *fields[max_fields] = {
 	"e_ragione_sociale",
-	"e_partita_iva",
-	"e_cf",
 	"e_codice_dest",
 	"e_pec",
+	"e_partita_iva",
+	"e_cf",
 	"f_stato",
 	"e_indirizzo",
 	"e_n_civico",
 	"e_comune",
-	"e_provincia",
+	"e_cap",
 	"e_email",
 	"e_telefono",
 };
+
+static constexpr int pos_stato = 5;
 
 G_DECLARE_FINAL_TYPE (CustomerItem, customer_item, CUSTOMER, ITEM, GObject)
 #define CUSTOMER_TYPE_ITEM (customer_item_get_type())
@@ -242,9 +244,9 @@ GListStore *frm_customers::setup_customers_model()
 		item = (CustomerItem *)g_object_new(CUSTOMER_TYPE_ITEM, NULL);
 
 		item->name = g_strdup(v[1].c_str());
-		item->iva = g_strdup(v[2].c_str());
-		item->country = g_strdup(v[3].c_str());
-		item->address = g_strdup(v[4].c_str());
+		item->iva = g_strdup(v[4].c_str());
+		item->country = g_strdup(v[6].c_str());
+		item->address = g_strdup(v[7].c_str());
 
 		g_list_store_append(store, item);
 
@@ -272,7 +274,7 @@ void frm_customers::setup_fields(guint n)
 	string data;
 	rlist rl;
 	GObject *entry;
-	int i;
+	int i, max;
 
 	selected = n;
 
@@ -288,11 +290,14 @@ void frm_customers::setup_fields(guint n)
 	if (rl.size() == 0)
 		return;
 
-	for (i = 0; i < max_fields; ++i) {
+	max = rl.front().size();
+	max--;
+
+	for (i = 0; i < max_fields && i < max; ++i) {
 		data = rl.front()[i + 1];
 		entry = gtk_builder_get_object(gb, fields[i]);
 
-		if (i == 2) {
+		if (i == pos_stato) {
 			select_combo_item(dd_countries, data.c_str());
 			continue;
 		}
@@ -303,6 +308,9 @@ void frm_customers::setup_fields(guint n)
 	}
 }
 
+/*
+ * Reading fields content, and saving by a query
+ */
 int frm_customers::query_from_fields(frm_customers *f, int n)
 {
 	string query;
@@ -316,7 +324,10 @@ int frm_customers::query_from_fields(frm_customers *f, int n)
 		query += ", '";
 
 		entry = gtk_builder_get_object(f->gb, fields[i]);
-		if (i == 2) {
+		if (!entry)
+			return -1;
+
+		if (i == pos_stato) {
 			GtkStringObject *so = (GtkStringObject *)
 			gtk_drop_down_get_selected_item(
 				f->dd_countries);

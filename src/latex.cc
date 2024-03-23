@@ -19,51 +19,74 @@
 
 #include "latex.hh"
 #include "fs.hh"
-
 #include <stdlib.h>
 
-static char invoice[] = "\\documentclass[*]{article}\n"
-	"\\usepackage{fp}\n"
-	"\\usepackage{booktabs}\n"
-	"\\usepackage{ragged2e}\n"
-	"\\usepackage{longtable}\n"
-	"\\newcounter{cnt}\n"
-	"\\setcounter{cnt}{0}\n"
-	"\\def\\inc{\\stepcounter{cnt}\\thecnt}\n"
-	"\\gdef\\TotalHT{0}\n"
-	"\\newcommand{\\product}[3]{%\n"
-	"\\inc &#1  &#2   &#3  &\\FPmul\\temp{#2}{#3}\\FPround\\temp{\\temp}{2}\\temp\n"
-	"%% Totalize\n"
-	"\\FPadd\\total{\\TotalHT}{\\temp}%\n"
-	"\\FPround\\total{\\total}{2}%\n"
-	"\\global\\let\\TotalHT\\total%\n"
-	"\\\\ }\n"
-	"\\newcommand{\\totalttc}{\n"
-	"   \\TotalHT  }\n"
-	"\\begin{document}\n"
-	"\\RaggedRight\n"
-	"\\begin{longtable}{cp{4.2cm}rrr}\n"
-	"\\toprule\n"
-	"Item   &Description & Price & Qty & Total\\\\\n"
-	"\\midrule\n"
-	"    \\product{Computer peripherals}{1000.00}{1}\n"
-	"    \\product{Harddisk 2000E}{2000}{1}\n"
-	"    \\product{The \\TeX book}{100.00}{100}\n"
-	"    \\product{Product Four}{5000.00}{1}\n"
-	"    \\product{Product Five}{5000.00}{2}\n"
-	"\\midrule\n"
-	"    &&&& Total \\totalttc\\\\\n"
-	"\\bottomrule\n"
-	"\\end{longtable}\n"
-	"\\end{document}";
-
-int latex::generate_invoice()
+int latex::load_invoice_template()
 {
-	fs fs;
+	 f.load_to_memory("invoice/ttest.tex", content);
+
+	 return 0;
+}
+
+int latex::insert_verb(const char *rf_field, const char *latex)
+{
+	unsigned int i, x;
+
+	if ((i = content.find(rf_field)) == string::npos)
+		return -1;
+	if ((i = content.rfind("\\begin{verbatim}", i)) == string::npos)
+		return -1;
+	i += 15;
+	if ((x = content.find("\\end{verbatim}", i)) == string::npos)
+		return -1;
+
+	content.replace(i, x - i, (string("}") + latex));
+
+	return 0;
+}
+
+int latex::insert_text(const char *rf_field, const char *latex)
+{
+	unsigned int i, x;
+
+	if ((i = content.find(rf_field)) == string::npos)
+		return -1;
+	if ((i = content.rfind('{', i)) == string::npos)
+		return -1;
+	if ((x = content.find('}', i)) == string::npos)
+		return -1;
+
+	content.replace(i, x - i, (string("{") + latex));
+
+	return 0;
+}
+
+int latex::setup_fields(m_fields &mf)
+{
+	if (insert_text("rf_n", mf["n"].c_str()))
+		return -1;
+	if (insert_text("rf_data", mf["data"].c_str()))
+		return -1;
+	if (insert_verb("rf_issued_from", mf["dati_aziendali"].c_str()))
+		return -1;
+	if (insert_verb("rf_issued_to", mf["dati_cessionario"].c_str()))
+		return -1;
+
+	return 0;
+}
+
+int latex::generate_invoice(m_fields &mf)
+{
 	char name[] = "/tmp/invoice_XXXXXX";
 	string cmd;
 
-	fs.create_tmp_file(name, invoice);
+	if (load_invoice_template())
+		return -1;
+
+	if (setup_fields(mf))
+		return -1;
+
+	f.create_tmp_file(name, &content[0]);
 
 	cmd = "pdflatex -synctex=1 -interaction=nonstopmode ";
 	cmd += name;

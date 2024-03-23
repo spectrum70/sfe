@@ -19,6 +19,8 @@ private:
 	static void on_button_btn_gen_cart(GtkWidget *widget, gpointer data);
 	static void on_button_btn_close(GtkWidget *widget, gpointer data);
 private:
+	GtkDropDown *dd_rf;
+	GtkDropDown *dd_clienti;
 	GtkBuilder *gb;
 	db_connector *db;
 };
