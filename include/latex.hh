@@ -21,6 +21,10 @@ private:
 	int setup_fields(m_fields &mf);
 	int insert_verb(const char *rf_field, const char *latex);
 	int insert_text(const char *rf_field, const char *latex);
+	int insert_prod_line(const char *idx,
+			     const char *desc,
+			     const char *qty,
+			     const char *value);
 
 	fs f;
 	string content;

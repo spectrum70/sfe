@@ -200,8 +200,27 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 				 (*rl.begin())[9] + "\n" +
 				 (*rl.begin())[11];
 
-	latex la;
+	int i;
+	char idx[3];
+	string field;
 
+	for (i = 1; i <= 10; ++i) {
+		sprintf(idx, "%02d", i);
+		field = string("desc_") + idx;
+		e = GTK_ENTRY(gtk_builder_get_object(f->gb, field.c_str()));
+		text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(e));
+		mf[field] = text;
+		field = string("qty_") + idx;
+		e = GTK_ENTRY(gtk_builder_get_object(f->gb, field.c_str()));
+		text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(e));
+		mf[field] = text;
+		field = string("value_") + idx;
+		e = GTK_ENTRY(gtk_builder_get_object(f->gb, field.c_str()));
+		text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(e));
+		mf[field] = text;
+	}
+
+	latex la;
 	la.generate_invoice(mf);
 }
 
@@ -215,33 +234,7 @@ void frm_invoice::on_button_btn_close(GtkWidget *widget, gpointer data)
 void frm_invoice::on_button_btn_save(GtkWidget *widget, gpointer data)
 {
 	frm_invoice *f = (frm_invoice *)data;
-	//GObject *entry;
-	//string query;
-	//int i;
 
-	/*query = "INSERT OR REPLACE INTO dati_propria_azienda VALUES (1";
-
-	for (i = 0; i < 12; ++i) {
-		query += ", '";
-
-		entry = gtk_builder_get_object(f->gb, fields[i]);
-		if (i == 2) {
-			GtkStringObject *so = (GtkStringObject *)
-				gtk_drop_down_get_selected_item(
-					f->dd_countries);
-			query += gtk_string_object_get_string(so);
-		} else {
-			query += gtk_entry_buffer_get_text(
-				gtk_entry_get_buffer(GTK_ENTRY(entry)));
-		}
-
-		query += "'";
-	}
-
-	query += ");";
-
-	if (f->db->db_query_with_result(query))
-		err << "database query error\n";*/
 
 	gtk_window_close(f->window);
 }
