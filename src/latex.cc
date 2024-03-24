@@ -23,7 +23,7 @@
 
 int latex::load_invoice_template()
 {
-	 f.load_to_memory("invoice/ttest.tex", content);
+	 f.load_to_memory("invoice/invoice.tex", content);
 
 	 return 0;
 }

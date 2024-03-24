@@ -210,7 +210,13 @@
 	(5,163,"GtkFrame","f_data",3,None,None,None,2,None),
 	(5,164,"GtkCalendar","cal_date",163,None,None,None,None,None),
 	(5,165,"GtkFixed",None,3,None,None,None,3,None),
-	(5,166,"GtkFrame","f_regime_fiscale",154,None,None,None,1,None)
+	(5,166,"GtkFrame","f_regime_fiscale",154,None,None,None,1,None),
+	(5,167,"GtkBox",None,61,None,None,None,10,None),
+	(5,174,"GtkFrame","f_clienti_42s_2",167,None,None,None,3,None),
+	(5,175,"GtkEntry","value_11",174,None,None,None,None,None),
+	(5,176,"GtkFixed",None,167,None,None,None,None,None),
+	(5,177,"GtkFixed",None,167,None,None,None,1,None),
+	(5,178,"GtkFixed",None,167,None,None,None,2,None)
   </object>
   <object_property>
 	(1,49,"GtkWidget","receives-default","True",None,None,None,None,None,None,None,None,None),
@@ -731,6 +737,27 @@
 	(5,166,"GtkWidget","height-request","43",None,None,None,None,None,None,None,None,None),
 	(5,166,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
 	(5,166,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
-	(5,166,"GtkWidget","valign","start",None,None,None,None,None,None,None,None,None)
+	(5,166,"GtkWidget","valign","start",None,None,None,None,None,None,None,None,None),
+	(5,167,"GtkWidget","halign","end",None,None,None,None,None,None,None,None,None),
+	(5,167,"GtkWidget","height-request","60",None,None,None,None,None,None,None,None,None),
+	(5,167,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(5,167,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(5,167,"GtkWidget","valign","baseline",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkFrame","label","Total",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","halign","end",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","height-request","43",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","opacity","0.9",None,None,None,None,None,None,None,None,None),
+	(5,174,"GtkWidget","receives-default","True",None,None,None,None,None,None,None,None,None),
+	(5,176,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(5,176,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(5,176,"GtkWidget","width-request","231",None,None,None,None,None,None,None,None,None),
+	(5,177,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(5,177,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(5,177,"GtkWidget","width-request","292",None,None,None,None,None,None,None,None,None),
+	(5,178,"GtkWidget","hexpand","True",None,None,None,None,None,None,None,None,None),
+	(5,178,"GtkWidget","hexpand-set","True",None,None,None,None,None,None,None,None,None),
+	(5,178,"GtkWidget","width-request","340",None,None,None,None,None,None,None,None,None)
   </object_property>
 </cambalache-project>
