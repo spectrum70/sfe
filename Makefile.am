@@ -5,7 +5,7 @@ invoicedir=$(datadir)/sfe/invoice
 formsdir=$(datadir)/sfe/forms
 iconsdir=$(datadir)/sfe/icons
 themedir=$(datadir)/sfe/theme
-dbdir=$(datadir)/db
+dbdir=$(datadir)/sfe/db
 
 sfe_CPPFLAGS=-Iinclude
 sfe_SOURCES = src/main.cc \
@@ -32,3 +32,6 @@ icons_DATA = icons/icons8-books-folder-96.png \
 		icons/icons8-services-96.png \
 		icons/icons8-user-folder-96.png
 theme_DATA = theme/theme.css
+
+install-data-local:
+	mkdir -p $(dbdir)
