@@ -15,6 +15,10 @@ struct fs {
 	int create_tmp_file(char *tmp_name, char *content);
 	size_t get_files_size(const char *path);
 	bool load_to_memory(const char *path, string &mem);
+	void setup_config_paths();
+	const char *get_path_res();
+private:
+	string path_resources;
 };
 
 #endif /* fs_hh */

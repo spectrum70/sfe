@@ -18,6 +18,7 @@
  */
 
 #include "db_connector.hh"
+#include "config.hh"
 #include "trace.hh"
 
 db_connector::db_connector()
@@ -34,6 +35,9 @@ int db_connector::db_create()
 	char *err_msg;
 	int rc;
 	string query;
+	string path;
+
+	path = config::get().get_path_res() + "/db/sfe.db";
 
 	/*
 	 * Note, don't use same name of the application or an error

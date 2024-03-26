@@ -18,11 +18,14 @@
  */
 #include <gtk/gtk.h>
 #include "frm_main.hh"
+#include "config.hh"
 
 static void activate(GtkApplication* app, gpointer user_data)
 {
+	string path = config::get().get_path_res() + "/theme/theme.css";
+
 	GtkCssProvider *css_provider = gtk_css_provider_new();
-	gtk_css_provider_load_from_path(css_provider, "theme.css");
+	gtk_css_provider_load_from_path(css_provider, path.c_str());
 	gtk_style_context_add_provider_for_display(gdk_display_get_default(),
 				GTK_STYLE_PROVIDER(css_provider),
 				GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);

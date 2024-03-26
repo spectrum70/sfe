@@ -20,6 +20,7 @@
 #include "frm_customers.hh"
 #include "countries.hh"
 #include "utils.hh"
+#include "config.hh"
 #include "trace.hh"
 
 static constexpr int max_fields = 12;
@@ -164,10 +165,12 @@ db(db), pkey("1")
 	GListStore *store;
 	GtkFrame *f;
 	GObject* btn_add_new, *btn_update, *btn_close, *btn_remove;
+	string path;
 	int i;
 
-	gb = gtk_builder_new_from_file(
-		"/home/angelo/dev-kernelspace/sfe/forms/frm_customers.ui");
+	path = config::get().get_path_res() + "/forms/frm_customers.ui";
+
+	gb = gtk_builder_new_from_file(path.c_str());
 
 	window = (GtkWindow *)gtk_builder_get_object(gb, "frm_customers");
 	btn_add_new = gtk_builder_get_object(gb, "btn_add_new");

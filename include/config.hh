@@ -10,8 +10,6 @@ using std::string;
 
 typedef vector<string> vect_str;
 
-constexpr char res_path[] = "/usr/share/sfe/";
-
 class config {
 	config();
 	~config();
@@ -35,6 +33,7 @@ public:
 
 	int get_int(const char *path);
 	string get_string(const char *path);
+	string get_path_res() { return path_resources; }
 
 	vect_str get_string_list(const char *sect);
 
@@ -45,6 +44,7 @@ private:
 private:
 	config_t cfg;
 	config_setting_t *root;
+	string path_resources;
 };
 
 #endif /* config_hh */

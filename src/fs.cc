@@ -30,6 +30,13 @@
 #include <cstring>
 #include <fstream>
 
+constexpr const char *path_res[] = {
+	"/usr/local/share/sfe",
+	"/usr/share/sfe",
+	".sfe",
+	0
+};
+
 fs::fs()
 {
 }
@@ -99,14 +106,29 @@ int fs::create_tmp_file(char *tmp_name, char *content)
 
 	if (temp) {
 		write(temp, content, strlen(content));
-
-
 		close(temp);
 
 		return 0;
 	}
 
-
 	return -1;
 }
 
+void fs::setup_config_paths()
+{
+	int i;
+
+	for (i = 0 ;; ++i) {
+		if (!path_res[i])
+			break;
+		if (is_dir(path_res[i])) {
+			path_resources = path_res[i];
+			break;
+		}
+	}
+}
+
+const char *fs::get_path_res()
+{
+	return path_resources.c_str();
+}

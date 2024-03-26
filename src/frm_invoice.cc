@@ -21,6 +21,7 @@
 #include "latex.hh"
 #include "trace.hh"
 #include "utils.hh"
+#include "config.hh"
 
 using namespace tools;
 
@@ -53,9 +54,11 @@ static const char *reg_fis[] = {
 frm_invoice::frm_invoice(GtkWindow *parent, db_connector *db) : db(db)
 {
 	GObject *btn_gen_cart, *btn_save, *btn_close;
+	string path;
 
-	gb = gtk_builder_new_from_file(
-		"/home/angelo/dev-kernelspace/sfe/forms/frm_invoice.ui");
+	path = config::get().get_path_res() + "/forms/frm_invoice.ui";
+
+	gb = gtk_builder_new_from_file(path.c_str());
 
 	btn_gen_cart = gtk_builder_get_object(gb, "btn_gen_cart");
 	btn_save = gtk_builder_get_object(gb, "btn_save");

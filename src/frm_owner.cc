@@ -20,6 +20,7 @@
 #include "frm_owner.hh"
 #include "countries.hh"
 #include "trace.hh"
+#include "config.hh"
 
 static char const *fields[] = {
 	"e_ragione_sociale",
@@ -43,8 +44,13 @@ static constexpr int pos_stato = 4;
 
 frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
 {
-	gb = gtk_builder_new_from_file(
-			"/home/angelo/dev-kernelspace/sfe/forms/frm_owner.ui");
+	string path = config::get().get_path_res() + "/forms/frm_owner.ui";
+
+	gb = gtk_builder_new_from_file(path.c_str());
+	if (!gb) {
+		err << "cannot create gtk builder, exiting\n";
+		exit(-1);
+	}
 
 	GObject* btn_cancel, *btn_save;
 

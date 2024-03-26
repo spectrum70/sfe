@@ -26,6 +26,7 @@
 #include "sections.hh"
 #include "utils.hh"
 #include "trace.hh"
+#include "fs.hh"
 
 using std::make_shared;
 using std::iter_swap;
@@ -62,7 +63,7 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 
 	for (i = 0; i < s_id_max; ++i) {
 		path = "sections.feature_" + tools::itoa(i);
-		icon = string(res_path) + "icons/" +
+		icon = cfg.get_path_res() + "/icons/" +
 			cfg.get_string(string(path + ".icon").c_str());
 		icon_text = cfg.get_string(string(path + ".icon_text").c_str());
 		icon_x = cfg.get_int(string(path + ".icon_x").c_str());

@@ -35,6 +35,12 @@ using std::string;
 
 config::config()
 {
+	fs fs;
+
+	fs.setup_config_paths();
+
+	path_resources = fs.get_path_res();
+
 	config_init(&cfg);
 
 	root = config_root_setting(&cfg);
