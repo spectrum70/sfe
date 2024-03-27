@@ -20,6 +20,11 @@
 #include "db_connector.hh"
 #include "config.hh"
 #include "trace.hh"
+#include "fs.hh"
+#include "path.hh"
+
+static constexpr char db_path[] = ".sfe";
+static constexpr char db_name[] = "sfe.db";
 
 db_connector::db_connector()
 {
@@ -35,16 +40,22 @@ int db_connector::db_create()
 	char *err_msg;
 	int rc;
 	string query;
-	string path;
+	string db_dir_name;
+	fs fs;
+	path p;
 
-	path = config::get().get_path_res() + "/db/sfe.db";
+	db_dir_name = p.get_home_path() + "/" + db_path;
+
+	if (!fs.is_dir(db_dir_name.c_str())) {
+		fs.create_directory(db_dir_name.c_str());
+	}
 
 	/*
 	 * Note, don't use same name of the application or an error
 	 * +++err: SQL error: file is not a database
 	 * will be thrown, since file cannot be ceated over same app name.
 	 */
-	rc = sqlite3_open("./sfe.db", &db);
+	rc = sqlite3_open((string(db_dir_name) + "/sfe.db").c_str(), &db);
 	if (rc != SQLITE_OK) {
 		err << "Can't open database: " << sqlite3_errmsg(db) << "\n";
 		sqlite3_close(db);

@@ -29,6 +29,9 @@
 #include <pwd.h>
 #include <cstring>
 #include <fstream>
+#include <filesystem>
+
+using namespace std;
 
 constexpr const char *path_res[] = {
 	"/usr/local/share/sfe",
@@ -96,6 +99,13 @@ vector<string> fs::dir(const char *path)
 	}
 
 	return v;
+}
+
+int fs::create_directory(const char *path)
+{
+	filesystem::path p(path);
+
+	return !filesystem::create_directory(p);
 }
 
 int fs::create_tmp_file(char *tmp_name, char *content)

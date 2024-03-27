@@ -17,6 +17,7 @@ struct fs {
 	bool load_to_memory(const char *path, string &mem);
 	void setup_config_paths();
 	const char *get_path_res();
+	int create_directory(const char *path);
 private:
 	string path_resources;
 };
