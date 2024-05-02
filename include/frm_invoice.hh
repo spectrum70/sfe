@@ -61,7 +61,7 @@ private:
 	float subtot[10]{};
 	float total{};
 
-	string dati_iva, dati_cf;
+	string dati_iva, dati_cf, dati_iban, dati_swift;
 };
 
 #endif /* frm_invoice_hh */

@@ -107,6 +107,8 @@ int latex::setup_fields(m_fields &mf)
 		return -1;
 	if (insert_text("rf_regime_fiscale", mf["regime_fiscale"].c_str()))
 		return -1;
+	if (insert_text("rf_iban_swift", mf["iban_swift"].c_str()))
+		return -1;
 	if (mf["bollo"] == "SI") {
 		if (insert_text("rf_bollo_virtuale",
 		    (string(mf["importo_bollo"]) + " E").c_str()))

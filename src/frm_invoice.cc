@@ -228,6 +228,8 @@ void frm_invoice::setup_fields()
 
 	dati_iva = vs[3];
 	dati_cf = vs[4];
+	dati_iban = vs[14];
+	dati_swift = vs[15];
 
 	dati = vs[1];
 	dati += "\nP.IVA: ";
@@ -371,6 +373,9 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 	l = GTK_LABEL(gtk_builder_get_object(f->gb, "l_dati_aziendali"));
 	text = gtk_label_get_text(l);
 	mf["dati_aziendali"] = text;
+
+	mf["iban_swift"] = string("IBAN: ") + f->dati_iban +
+			   string(" BIC/SWIFT: ") + f->dati_swift;
 
 	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_clienti);
 
