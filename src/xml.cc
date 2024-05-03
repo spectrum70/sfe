@@ -299,15 +299,15 @@ void xml::add_dati_trasmissione(xmlChar *paese, xmlChar *cf,
 	xmlTextWriterEndElement(writer);
 }
 
-int xml::validate_xml()
+int xml::validate_xml(const string &fname)
 {
+	int ret = -1;
 	xmlDocPtr doc;
 	xmlSchemaPtr schema;
 	xmlSchemaParserCtxtPtr schema_parser_ctxt;
+	xmlSchemaValidCtxtPtr valid_ctxt;
 	string path = config::get().get_path_res() +
 			"/xml/schema-fatturapa-1.2.2.xsd";
-	int ret = -1;
-	xmlSchemaValidCtxtPtr valid_ctxt;
 
 	if ((schema_parser_ctxt = xmlSchemaNewParserCtxt(path.c_str()))) {
 		schema = xmlSchemaParse(schema_parser_ctxt);
@@ -316,7 +316,7 @@ int xml::validate_xml()
 		if (schema) {
 			valid_ctxt = xmlSchemaNewValidCtxt(schema);
 
-			doc = xmlReadFile("test.xml", NULL, 0);
+			doc = xmlReadFile(fname.c_str(), NULL, 0);
 
 			if (doc == NULL) {
 				err << "Could not parse file, exiting\n";
@@ -482,7 +482,5 @@ int xml::create_xml(fmap &fm, const string &name)
 	xmlTextWriterEndDocument(writer);
 	xmlFreeTextWriter(writer);
 
-	validate_xml();
-
-	return 0;
+	return validate_xml(fname);
 }

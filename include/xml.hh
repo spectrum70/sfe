@@ -34,7 +34,7 @@ struct xml {
 	void add_dettagli_linee(fmap &fm);
 	void add_dati_riepilogo(fmap &fm);
 
-	int validate_xml();
+	int validate_xml(const string &fname);
 
 private:
 	xmlTextWriterPtr writer;

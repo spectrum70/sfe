@@ -709,12 +709,18 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 		fm[string("value_") + idx] = ftoa(val);
 
 		fm[string("subtotal_") + idx] =
-		gtk_label_get_text(f->l_subtotal[i - 1]);
+			gtk_label_get_text(f->l_subtotal[i - 1]);
 	}
 
-	xml.create_xml(fm, xml_file_name);
+	string msg;
 
-	string msg = "invoice xml saved.";
+	if (xml.create_xml(fm, xml_file_name) == 0) {
+		msg = string("xml <") + xml_file_name +
+			"> generated successfully.";
+	} else {
+		msg = "There are errors validating the xml. xml not created.";
+	}
+
 	f->message(msg);
 }
 
