@@ -691,20 +691,20 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	fm["importo_totale"] = gtk_label_get_text(f->l_total);
 
 	char idx[3];
-	int val;
+	float val;
 	for (int i = 1; i <= 10; ++i) {
 		sprintf(idx, "%02x", i);
 		fm[string("desc_") + idx] = gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_desc[i - 1]));
 
-		val = atoi(gtk_entry_buffer_get_text(
+		val = atof(gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_qty[i - 1])));
 		fm[string("qty_") + idx] = ftoa(val);
 
 		fm[string("unit_") + idx] = gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_unit[i - 1]));
 
-		val = atoi(gtk_entry_buffer_get_text(
+		val = atof(gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_value[i - 1])));
 		fm[string("value_") + idx] = ftoa(val);
 
