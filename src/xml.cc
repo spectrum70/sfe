@@ -468,7 +468,6 @@ int xml::create_xml(fmap &fm, const string &name)
 			  (xmlChar *)fm["importo_bollo"].c_str(),
 			  (xmlChar *)fm["importo_totale"].c_str());
 
-
 	xmlTextWriterStartElement(writer, (xmlChar *)"DatiBeniServizi");
 	add_dettagli_linee(fm);
 	add_dati_riepilogo(fm);

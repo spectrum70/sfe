@@ -313,7 +313,8 @@ string frm_invoice::get_date_xml(frm_invoice *f)
 
 	get_date_value(f, year, month, day);
 	date << setw(4) << setfill('0') << year << "-"
-		<< setw(2) << setfill('0') << month << "-" << day;
+		<< setw(2) << setfill('0') << month << "-"
+		<< setw(2) << setfill('0') << day;
 
 	return date.str();
 }
