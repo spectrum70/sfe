@@ -169,6 +169,49 @@ void frm_invoice::update_total(frm_invoice *f)
 	gtk_label_set_text(f->l_total, ftoa(f->total).c_str());
 }
 
+string frm_invoice::get_ente_emittente(const string& country)
+{
+	/* As of now, this program is for Italy. */
+	return "IT";
+}
+
+void frm_invoice::get_date_value(frm_invoice *f,
+				 int &year, int &month, int &day)
+{
+	GtkCalendar *cal;
+	GDateTime *dt;
+
+	cal = GTK_CALENDAR(gtk_builder_get_object(f->gb, "cal_date"));
+	dt = gtk_calendar_get_date(cal);
+
+	day = g_date_time_get_day_of_month(dt);
+	month =  g_date_time_get_month(dt);
+	year =  g_date_time_get_year(dt);
+}
+
+string frm_invoice::get_date(frm_invoice *f)
+{
+	int day, month, year;
+
+	get_date_value(f, year, month, day);
+	string date = itoa(day) + "/" + itoa(month) + "/" + itoa(year);
+
+	return date;
+}
+
+string frm_invoice::get_date_xml(frm_invoice *f)
+{
+	stringstream date;
+	int day, month, year;
+
+	get_date_value(f, year, month, day);
+	date << setw(4) << setfill('0') << year << "-"
+	<< setw(2) << setfill('0') << month << "-"
+	<< setw(2) << setfill('0') << day;
+
+	return date.str();
+}
+
 void frm_invoice::on_key_press_qty(GtkWidget *widget, gpointer data)
 {
 	int i;
@@ -201,6 +244,32 @@ void frm_invoice::on_key_press_value(GtkWidget *widget, gpointer data)
 
 	f->update_subtotal(f, widget, i);
 	f->update_total(f);
+}
+
+void frm_invoice::set_date(frm_invoice *f, const string &date)
+{
+	GtkCalendar *cal;
+	unsigned int x, p;
+
+	cal = GTK_CALENDAR(gtk_builder_get_object(f->gb, "cal_date"));
+
+	if ((p = date.find('/')) == string::npos) {
+		message("corrupted date");
+		return;
+	}
+
+	int day = atoi(date.substr(0, p));
+	if ((x = date.find('/', p + 1)) == string::npos) {
+		message("corrupted date");
+		return;
+	}
+
+	int month = atoi(date.substr(p + 1, x));
+	int year =  atoi(date.substr(x + 1));
+
+	gtk_calendar_set_day(cal, day);
+	gtk_calendar_set_month(cal, month - 1);
+	gtk_calendar_set_year(cal, year);
 }
 
 void frm_invoice::setup_fields()
@@ -274,147 +343,6 @@ void frm_invoice::setup_fields()
 
 	dd_clienti = (GtkDropDown *)gtk_drop_down_new_from_strings(clienti);
 	gtk_frame_set_child(f, GTK_WIDGET(dd_clienti));
-}
-
-string frm_invoice::get_ente_emittente(const string& country)
-{
-	/* As of now, this program is for Italy. */
-	return "IT";
-}
-
-void frm_invoice::get_date_value(frm_invoice *f,
-				 int &year, int &month, int &day)
-{
-	GtkCalendar *cal;
-	GDateTime *dt;
-
-	cal = GTK_CALENDAR(gtk_builder_get_object(f->gb, "cal_date"));
-	dt = gtk_calendar_get_date(cal);
-
-	day = g_date_time_get_day_of_month(dt);
-	month =  g_date_time_get_month(dt);
-	year =  g_date_time_get_year(dt);
-}
-
-string frm_invoice::get_date(frm_invoice *f)
-{
-	int day, month, year;
-
-	get_date_value(f, year, month, day);
-	string date = itoa(day) + "/" + itoa(month) + "/" + itoa(year);
-
-	return date;
-}
-
-string frm_invoice::get_date_xml(frm_invoice *f)
-{
-	stringstream date;
-	int day, month, year;
-
-	get_date_value(f, year, month, day);
-	date << setw(4) << setfill('0') << year << "-"
-		<< setw(2) << setfill('0') << month << "-"
-		<< setw(2) << setfill('0') << day;
-
-	return date.str();
-}
-
-void frm_invoice::set_date(frm_invoice *f, const string &date)
-{
-	GtkCalendar *cal;
-	unsigned int x, p;
-
-	cal = GTK_CALENDAR(gtk_builder_get_object(f->gb, "cal_date"));
-
-	if ((p = date.find('/')) == string::npos) {
-		message("corrupted date");
-		return;
-	}
-
-	int day = atoi(date.substr(0, p));
-	if ((x = date.find('/', p + 1)) == string::npos) {
-		message("corrupted date");
-		return;
-	}
-
-	int month = atoi(date.substr(p + 1, x));
-	int year =  atoi(date.substr(x + 1));
-
-	gtk_calendar_set_day(cal, day);
-	gtk_calendar_set_month(cal, month - 1);
-	gtk_calendar_set_year(cal, year);
-}
-
-void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
-{
-	frm_invoice *f = (frm_invoice *)data;
-	m_fields mf;
-	GtkStringObject *p;
-	GtkLabel *l;
-	rlist rl;
-	string query, field;
-	const char *text;
-	int i;
-	char idx[3];
-
-	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_rf);
-
-	text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(f->e_number));
-
-	mf["n"] = text;
-	mf["data"] = f->get_date(f);
-	mf["bollo"] = (gtk_check_button_get_active(f->cb_bollo) ? "SI" : "NO");
-	mf["importo_bollo"] = "2.00";
-	mf["regime_fiscale"] = gtk_string_object_get_string(p);
-
-	text = gtk_entry_buffer_get_text(
-		gtk_entry_get_buffer(f->e_codice_univoco));
-	mf["codice_progressivo"] = text;
-
-	l = GTK_LABEL(gtk_builder_get_object(f->gb, "l_dati_aziendali"));
-	text = gtk_label_get_text(l);
-	mf["dati_aziendali"] = text;
-
-	mf["iban_swift"] = string("IBAN: ") + f->dati_iban +
-			   string(" BIC/SWIFT: ") + f->dati_swift;
-
-	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_clienti);
-
-	query = "SELECT * FROM anagrafica_clienti WHERE ragione_sociale = '";
-	query += gtk_string_object_get_string(p);
-	query += "'";
-
-	if (f->db->db_query_with_result(query, rl))
-		err << "database query error\n";
-
-	mf["dati_cessionario"] = (*rl.begin())[1] + "\nP.IVA: " +
-				 (*rl.begin())[3] + "\n" +
-				 (*rl.begin())[7] + " " +
-				 (*rl.begin())[8] + "\n" +
-				 (*rl.begin())[10] + " " +
-				 (*rl.begin())[9] + "\n" +
-				 (*rl.begin())[11];
-
-	for (i = 1; i <= 10; ++i) {
-		sprintf(idx, "%02d", i);
-
-		mf[string("desc_") + idx] = gtk_entry_buffer_get_text(
-				gtk_entry_get_buffer(f->e_desc[i - 1]));
-		mf[string("qty_") + idx] = gtk_entry_buffer_get_text(
-				gtk_entry_get_buffer(f->e_qty[i - 1]));
-		mf[string("value_") + idx] = gtk_entry_buffer_get_text(
-				gtk_entry_get_buffer(f->e_value[i - 1]));
-	}
-
-	string name = "invoice_";
-	name += mf["n"];
-	name += "_";
-	name += mf["codice_progressivo"];
-	name += ".pdf";
-	f->normalize_name(name);
-
-	latex la;
-	la.generate_invoice(mf, name);
 }
 
 int frm_invoice::load_invoice(frm_invoice *f, const char *file_name)
@@ -620,6 +548,78 @@ string frm_invoice::try_to_set_progressivo(frm_invoice *f)
 		(gtk_entry_get_buffer(f->e_codice_univoco));
 }
 
+void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
+{
+	frm_invoice *f = (frm_invoice *)data;
+	m_fields mf;
+	GtkStringObject *p;
+	GtkLabel *l;
+	rlist rl;
+	string query, field;
+	const char *text;
+	int i;
+	char idx[3];
+
+	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_rf);
+
+	text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(f->e_number));
+
+	mf["n"] = text;
+	mf["data"] = f->get_date(f);
+	mf["bollo"] = (gtk_check_button_get_active(f->cb_bollo) ? "SI" : "NO");
+	mf["importo_bollo"] = "2.00";
+	mf["regime_fiscale"] = gtk_string_object_get_string(p);
+
+	text = gtk_entry_buffer_get_text(
+		gtk_entry_get_buffer(f->e_codice_univoco));
+	mf["codice_progressivo"] = text;
+
+	l = GTK_LABEL(gtk_builder_get_object(f->gb, "l_dati_aziendali"));
+	text = gtk_label_get_text(l);
+	mf["dati_aziendali"] = text;
+
+	mf["iban_swift"] = string("IBAN: ") + f->dati_iban +
+	string(" BIC/SWIFT: ") + f->dati_swift;
+
+	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_clienti);
+
+	query = "SELECT * FROM anagrafica_clienti WHERE ragione_sociale = '";
+	query += gtk_string_object_get_string(p);
+	query += "'";
+
+	if (f->db->db_query_with_result(query, rl))
+		err << "database query error\n";
+
+	mf["dati_cessionario"] = (*rl.begin())[1] + "\nP.IVA: " +
+	(*rl.begin())[3] + "\n" +
+	(*rl.begin())[7] + " " +
+	(*rl.begin())[8] + "\n" +
+	(*rl.begin())[10] + " " +
+	(*rl.begin())[9] + "\n" +
+	(*rl.begin())[11];
+
+	for (i = 1; i <= 10; ++i) {
+		sprintf(idx, "%02d", i);
+
+		mf[string("desc_") + idx] = gtk_entry_buffer_get_text(
+			gtk_entry_get_buffer(f->e_desc[i - 1]));
+		mf[string("qty_") + idx] = gtk_entry_buffer_get_text(
+			gtk_entry_get_buffer(f->e_qty[i - 1]));
+		mf[string("value_") + idx] = gtk_entry_buffer_get_text(
+			gtk_entry_get_buffer(f->e_value[i - 1]));
+	}
+
+	string name = "invoice_";
+	name += mf["n"];
+	name += "_";
+	name += mf["codice_progressivo"];
+	name += ".pdf";
+	f->normalize_name(name);
+
+	latex la;
+	la.generate_invoice(mf, name);
+}
+
 void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 {
 	frm_invoice *f = (frm_invoice *)data;
@@ -643,7 +643,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_rf);
 
 	string regime_fiscale =
-		string(gtk_string_object_get_string(p)).substr(0, 4);
+	string(gtk_string_object_get_string(p)).substr(0, 4);
 
 	fm["rf"] = regime_fiscale;
 
@@ -706,7 +706,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 		fm[string("value_") + idx] = ftoa(val);
 
 		fm[string("subtotal_") + idx] =
-			gtk_label_get_text(f->l_subtotal[i - 1]);
+		gtk_label_get_text(f->l_subtotal[i - 1]);
 	}
 
 	string name = "invoice_";
