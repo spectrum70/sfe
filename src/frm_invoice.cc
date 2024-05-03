@@ -625,7 +625,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	frm_invoice *f = (frm_invoice *)data;
 	fmap fm;
 	rlist rl;
-	string query;
+	string query, xml_file_name;
 	xml xml;
 	GtkStringObject *p;
 
@@ -643,7 +643,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_rf);
 
 	string regime_fiscale =
-	string(gtk_string_object_get_string(p)).substr(0, 4);
+		string(gtk_string_object_get_string(p)).substr(0, 4);
 
 	fm["rf"] = regime_fiscale;
 
@@ -654,6 +654,9 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	fm["comune"] = uppercase((*rl.begin())[8]);
 	fm["provincia"] = uppercase((*rl.begin())[9]);
 	fm["nazione"] = f->get_ente_emittente("");
+
+	xml_file_name = fm["paese"] + f->dati_cf + "_" +
+			fm["progressivo"] + ".xml";
 
 	p = (GtkStringObject *)gtk_drop_down_get_selected_item(f->dd_clienti);
 
@@ -709,14 +712,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 		gtk_label_get_text(f->l_subtotal[i - 1]);
 	}
 
-	string name = "invoice_";
-	name += fm["numero"];
-	name += "_";
-	name += fm["progressivo"];
-	name += ".xml";
-	f->normalize_name(name);
-
-	xml.create_xml(fm, name);
+	xml.create_xml(fm, xml_file_name);
 
 	string msg = "invoice xml saved.";
 	f->message(msg);
