@@ -45,6 +45,19 @@ LDFLAGS="$LDFLAGS $GTK_LIBS $LIBCONFIGXX_LIBS $LIBPQXX_LIBS $SQLITE3_LIBS $XML2_
 CPPFLAGS="$CPPFLAGS $GTK_CPPFLAGS $LIBCONFIGXX_CPPFLAGS $SQLITE3_CPPFLAGS $XML2_CFLAGS"
 LIBS="$LDFLAGS"
 
+AC_CHECK_PROG(PDFLATEX, pdflatex, yes, [AC_MSG_ERROR([pdflatex missing])])
+if test x$TEXLIVE_FONTSRECOMMENDED = xno ; then
+        AC_MSG_ERROR([please install latex.])
+        exit
+fi
+AC_CHECK_PROG(XELATEX, xelatex, yes, [AC_MSG_ERROR([xelatex missing])])
+if test x$TEXLIVE_FONTSRECOMMENDED = xno ; then
+        AC_MSG_ERROR([please install xelatex.])
+        exit
+fi
+
+# TODO: check latex fontsrecommended package
+
 # Checks for header files.
 AC_CHECK_HEADERS([fcntl.h sys/ioctl.h termios.h])
 
