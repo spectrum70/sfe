@@ -45,7 +45,7 @@ float atof(const string &str)
 	stringstream ss;
 
 	ss << str;
-	ss >> value;
+	ss >> fixed >> setprecision(2) >> value;
 
 	return value;
 }
@@ -63,13 +63,11 @@ string itoa(int val)
 
 string ftoa(float val)
 {
-	string out;
-	stringstream ss;
+	char value[64];
 
-	ss << fixed << setprecision(2) << val;
-	ss >> out;
+	sprintf(value, "%.2f", val);
 
-	return out;
+	return value;
 }
 
 string uppercase(const string &str)
