@@ -57,7 +57,7 @@ int db_connector::db_create()
 	 */
 	rc = sqlite3_open((string(db_dir_name) + "/sfe.db").c_str(), &db);
 	if (rc != SQLITE_OK) {
-		err << "Can't open database: " << sqlite3_errmsg(db) << "\n";
+		_err << "Can't open database: " << sqlite3_errmsg(db) << "\n";
 		sqlite3_close(db);
 		return -1;
 	}
@@ -83,7 +83,7 @@ int db_connector::db_create()
 
 	rc = sqlite3_exec(db, query.c_str(), 0, 0, &err_msg);
 	if (rc != SQLITE_OK) {
-		err << "SQL error: " << err_msg << "\n";
+		_err << "SQL error: " << err_msg << "\n";
 		sqlite3_free(err_msg);
 		return -1;
 	}
@@ -106,7 +106,7 @@ int db_connector::db_create()
 
 	rc = sqlite3_exec(db, query.c_str(), 0, 0, &err_msg);
 	if (rc != SQLITE_OK) {
-		err << "SQL error: " << err_msg << "\n";
+		_err << "SQL error: " << err_msg << "\n";
 		sqlite3_free(err_msg);
 		return -1;
 	}
@@ -140,7 +140,7 @@ int db_connector::db_query_with_result(const string &query, rlist &r_list)
 
 	rc = sqlite3_exec(db, query.c_str(), execl_callback, &r_list, &err_msg);
 	if (rc != SQLITE_OK) {
-		err << "SQL error: " << err_msg << "\n";
+		_err << "SQL error: " << err_msg << "\n";
 		sqlite3_free(err_msg);
 		return -1;
 	}
@@ -155,7 +155,7 @@ int db_connector::db_query_with_result(const string &query)
 
 	rc = sqlite3_exec(db, query.c_str(), 0, 0, &err_msg);
 	if (rc != SQLITE_OK) {
-		err << "SQL error: " << err_msg << "\n";
+		_err << "SQL error: " << err_msg << "\n";
 		sqlite3_free(err_msg);
 		return -1;
 	}

@@ -45,7 +45,7 @@ config::config()
 
 	root = config_root_setting(&cfg);
 	if (!root) {
-		err << "config(), root is null\n";
+		_err << "config(), root is null\n";
 	}
 }
 
@@ -121,7 +121,7 @@ config_setting_t* config::create_group(const char *sect, const char *group)
 	if (!sel) {
 		sel = config_setting_add(root, sect, CONFIG_TYPE_GROUP);
 		if (!sel) {
-			err << "add_option(), sect " << sect << "\n";
+			_err << "add_option(), sect " << sect << "\n";
 			return 0;
 		}
 	}
@@ -129,7 +129,7 @@ config_setting_t* config::create_group(const char *sect, const char *group)
 	if (group) {
 		sel = config_setting_add(sel, group, CONFIG_TYPE_GROUP);
 		if (!sel) {
-			err << "add_option(), group " << sect << "\n";
+			_err << "add_option(), group " << sect << "\n";
 			return 0;
 		}
 	}
@@ -152,7 +152,7 @@ bool config::add_option(const char *sect, const char *name, const char *value)
 
 	setting = config_setting_add(group, name, CONFIG_TYPE_STRING);
 	if (!setting) {
-		err << "add_option(), name " << name << "\n";
+		_err << "add_option(), name " << name << "\n";
 		return false;
 	}
 
@@ -171,7 +171,7 @@ bool config::add_option(const char *sect, const char *name, int value)
 
 	setting = config_setting_add(group, name, CONFIG_TYPE_INT);
 	if (!setting) {
-		err << "add_option(), name " << name << "\n";
+		_err << "add_option(), name " << name << "\n";
 		return false;
 	}
 
@@ -191,7 +191,7 @@ bool config::add_option(const char *sect, const char *name, int* array, int len)
 
 	setting = config_setting_add(group, name, CONFIG_TYPE_ARRAY);
 	if (!setting) {
-		err << "add_option(), name " << name << "\n";
+		_err << "add_option(), name " << name << "\n";
 		return false;
 	}
 
@@ -214,13 +214,13 @@ bool config::update_option(
 
 	group = get_group(path.c_str());
 	if (!group) {
-		err << "missing group\n";
+		_err << "missing group\n";
 		return false;
 	}
 
 	rval = config_setting_set_string(group, value);
 	if (rval != CONFIG_TRUE) {
-		err << "update_option(), name " << name << "\n";
+		_err << "update_option(), name " << name << "\n";
 		return false;
 	}
 
@@ -241,7 +241,7 @@ bool config::update_option(const char *sect, const char *name, int value)
 
 	rval = config_setting_set_int(group, value);
 	if (rval != CONFIG_TRUE) {
-		err << "update_option(), name " << name << "\n";
+		_err << "update_option(), name " << name << "\n";
 		return false;
 	}
 
@@ -280,7 +280,7 @@ vect_str config::get_string_list(const char *sect)
 
 	group = get_group(sect);
 	if (!group)
-		err << "get_string_list()\n";
+		_err << "get_string_list()\n";
 
 	count = config_setting_length(group);
 	for(i = 0; i < count; ++i) {
@@ -297,7 +297,7 @@ bool config::save_config()
 	string default_config = p.get_home_path() + file_cfg_name;
 
 	if(!config_write_file(&cfg, default_config.c_str())) {
-		err << "cannot write config file " << default_config << "\n";
+		_err << "cannot write config file " << default_config << "\n";
 		config_destroy(&cfg);
 
 		return false;

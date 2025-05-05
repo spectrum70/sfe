@@ -319,7 +319,7 @@ int xml::validate_xml(const string &fname)
 			doc = xmlReadFile(fname.c_str(), NULL, 0);
 
 			if (doc == NULL) {
-				err << "Could not parse file, exiting\n";
+				_err << "Could not parse file, exiting\n";
 				return -1;
 			}
 
@@ -352,7 +352,7 @@ int xml::create_xml(fmap &fm, const string &name)
 
 	writer = xmlNewTextWriterFilename(fname.c_str(), 0);
 	if (writer == NULL) {
-		err << "testXmlwriterFilename: Error creating the xml writer\n";
+		_err << "testXmlwriterFilename: Error creating the xml writer\n";
 		return -1;
 	}
 
@@ -384,7 +384,7 @@ int xml::create_xml(fmap &fm, const string &name)
 		!fm.count("formato") ||
 		!fm.count("codice_dest"))
 	{
-		err << "dati trasmissione: wrong input params, exiting.\n";
+		_err << "dati trasmissione: wrong input params, exiting.\n";
 		return -1;
 	}
 
@@ -406,7 +406,7 @@ int xml::create_xml(fmap &fm, const string &name)
 		!fm.count("provincia") ||
 		!fm.count("nazione"))
 	{
-		err << "cedente prestatore: wrong input params, exiting.\n";
+		_err << "cedente prestatore: wrong input params, exiting.\n";
 		return -1;
 	}
 
@@ -431,7 +431,7 @@ int xml::create_xml(fmap &fm, const string &name)
 		!fm.count("cc_comune") ||
 		!fm.count("cc_nazione"))
 	{
-		err << "cedente prestatore: wrong input params, exiting.\n";
+		_err << "cedente prestatore: wrong input params, exiting.\n";
 		return -1;
 	}
 
@@ -456,7 +456,7 @@ int xml::create_xml(fmap &fm, const string &name)
 		!fm.count("importo_bollo") ||
 		!fm.count("importo_totale"))
 	{
-		err << "cedente prestatore: wrong input params, exiting.\n";
+		_err << "cedente prestatore: wrong input params, exiting.\n";
 		return -1;
 	}
 

@@ -141,7 +141,7 @@ struct nodbg {
 
 #define mesg nodbg::get() << mesg
 #define imp nodbg::get() << imp
-#define err nodbg::get() << err
+#define _err nodbg::get() << err
 
 #define dbg trace::get() << dbg
 

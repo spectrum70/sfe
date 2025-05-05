@@ -42,7 +42,7 @@ frm_main::frm_main(GtkApplication *app) : gobj_sel(-1), titlebar_height(-1)
 	config &cfg = config::get();
 
 	if (db.db_create()) {
-		err << "cannot open/create database, exiting.\n";
+		_err << "cannot open/create database, exiting.\n";
 		exit(1);
 	}
 

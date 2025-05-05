@@ -239,7 +239,7 @@ GListStore *frm_customers::setup_customers_model()
 	query = "SELECT * FROM anagrafica_clienti";
 
 	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	for (last = 0, it = rl.begin(); it != rl.end(); ++it) {
 		vector<string> &v = (*it);
@@ -288,7 +288,7 @@ void frm_customers::setup_fields(guint n)
 		+ tools::itoa(n) + ";";
 
 	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	if (rl.size() == 0)
 		return;
@@ -346,7 +346,7 @@ int frm_customers::query_from_fields(frm_customers *f, int n)
 	query += ");";
 
 	if (f->db->db_query_with_result(query)) {
-		err << "database query error\n";
+		_err << "database query error\n";
 		return -1;
 	}
 
@@ -395,7 +395,7 @@ void frm_customers::on_button_btn_remove(GtkWidget *widget, gpointer data)
 			+ tools::itoa(f->selected) + ";";
 
 	if (f->db->db_query_with_result(query)) {
-		err << "database query error\n";
+		_err << "database query error\n";
 		return;
 	}
 

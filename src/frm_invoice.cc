@@ -284,7 +284,7 @@ void frm_invoice::setup_fields()
 	query = "SELECT * FROM dati_propria_azienda LIMIT 1";
 
 	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	if (rl.size() == 0)
 		return;
@@ -327,7 +327,7 @@ void frm_invoice::setup_fields()
 	query = "SELECT * FROM anagrafica_clienti";
 
 	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	char **clienti = new char *[rl.size() + 1];
 	for (i = 0; i < rl.size(); ++i) {
@@ -588,7 +588,7 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 	query += "'";
 
 	if (f->db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	mf["dati_cessionario"] = (*rl.begin())[1] + "\nP.IVA: " +
 	(*rl.begin())[3] + "\n" +
@@ -632,7 +632,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	query = "SELECT * FROM dati_propria_azienda LIMIT 1";
 
 	if (f->db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	fm["paese"] = f->get_ente_emittente("");
 	fm["codice"] = f->dati_cf;
@@ -667,7 +667,7 @@ void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
 	rl.clear();
 
 	if (f->db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	fm["codice_dest"] = (*rl.begin())[2];
 

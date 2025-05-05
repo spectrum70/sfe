@@ -49,7 +49,7 @@ frm_owner::frm_owner(GtkWindow *parent, db_connector *db) : db(db)
 
 	gb = gtk_builder_new_from_file(path.c_str());
 	if (!gb) {
-		err << "cannot create gtk builder, exiting\n";
+		_err << "cannot create gtk builder, exiting\n";
 		exit(-1);
 	}
 
@@ -100,7 +100,7 @@ void frm_owner::setup_fields()
 	query = "SELECT * FROM dati_propria_azienda LIMIT 1";
 
 	if (db->db_query_with_result(query, rl))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	if (rl.size() == 0)
 		return;
@@ -156,7 +156,7 @@ void frm_owner::on_button_btn_save(GtkWidget *widget, gpointer data)
 	query += ");";
 
 	if (f->db->db_query_with_result(query))
-		err << "database query error\n";
+		_err << "database query error\n";
 
 	gtk_window_close(f->window);
 }

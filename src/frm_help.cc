@@ -27,7 +27,7 @@ frm_help::frm_help(GtkWindow *parent)
 
 	gb = gtk_builder_new_from_file(path.c_str());
 	if (!gb) {
-		err << "cannot create gtk builder, exiting\n";
+		_err << "cannot create gtk builder, exiting\n";
 		exit(-1);
 	}
 
