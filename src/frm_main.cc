@@ -190,14 +190,13 @@ void frm_main::on_property_notification(GObject* self,
 {
 	frm_main *f = (frm_main *)data;
 
-	if (f->titlebar_height == -1)
-		f->titlebar_height =
-			f->height - gtk_widget_get_height(f->drawing_area);
-
 	f->width = gtk_widget_get_size(GTK_WIDGET(self),
-				       GTK_ORIENTATION_HORIZONTAL);
-	f->height = gtk_widget_get_size(GTK_WIDGET(self),
-					GTK_ORIENTATION_VERTICAL);
+                                       GTK_ORIENTATION_HORIZONTAL);
+        f->height = gtk_widget_get_size(GTK_WIDGET(self),
+                                        GTK_ORIENTATION_VERTICAL);
+
+	f->titlebar_height =
+		f->height - gtk_widget_get_height(f->drawing_area);
 }
 
 void frm_main::on_mouse_click(GtkGestureClick* self,
