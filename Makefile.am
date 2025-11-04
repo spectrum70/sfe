@@ -46,4 +46,5 @@ icons_DATA = icons/icons8-books-folder-96.png \
 
 theme_DATA = theme/theme.css
 
-xml_DATA = xml/schema-fatturapa-1.2.2.xsd
+xml_DATA = xml/schema-fatturapa-1.2.2.xsd \
+	   xml/xmldsig-core-schema.xsd
