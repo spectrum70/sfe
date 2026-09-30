@@ -30,7 +30,8 @@ sfe_SOURCES = src/main.cc \
 		src/latex.cc \
 		src/xml.cc
 
-invoice_DATA = invoice/invoice.tex
+invoice_DATA = invoice/invoice.tex \
+	       invoice/invoice_eng.tex
 
 forms_DATA = forms/frm_customers.ui \
 		forms/frm_invoice.ui \
