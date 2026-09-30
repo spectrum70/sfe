@@ -11,13 +11,18 @@ using std::map;
 
 typedef map<string, string> m_fields;
 
+enum langs {
+	lang_ita,
+	lang_eng,
+};
+
 struct latex {
 	latex() {}
 
 	int generate_invoice(m_fields &mf, const string &file_name);
 
 private:
-	int load_invoice_template();
+	int load_invoice_template(enum langs language);
 	int setup_fields(m_fields &mf);
 	int insert_verb(const char *rf_field, const char *latex);
 	int insert_text(const char *rf_field, const char *latex);

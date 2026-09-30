@@ -26,9 +26,17 @@
 
 static const char pdf_path[] = "/.sfe/invoices/pdf";
 
-int latex::load_invoice_template()
+int latex::load_invoice_template(enum langs language)
 {
-	string path = config::get().get_path_res() + "/invoice/invoice.tex";
+	string path = config::get().get_path_res() + "/invoice/invoice";
+
+	if (language == lang_eng)
+		path += "_eng";
+
+	path += ".tex";
+
+	if (!f.file_exists(path.c_str()))
+		return -1;
 
 	if (f.load_to_memory(path.c_str(), content))
 		return 0;
@@ -143,6 +151,7 @@ int latex::generate_invoice(m_fields &mf, const string &file_name)
 {
 	char name[] = "/tmp/invoice_XXXXXX";
 	string dir, cmd;
+	enum langs lng;
 	path p;
 	fs fs;
 
@@ -152,7 +161,12 @@ int latex::generate_invoice(m_fields &mf, const string &file_name)
 		fs.create_directory(dir.c_str());
 	}
 
-	if (load_invoice_template())
+	if (mf["country"].substr(0, 2) == "IT")
+		lng = lang_ita;
+	else
+		lng = lang_eng;
+
+	if (load_invoice_template(lng))
 		return -1;
 
 	if (setup_fields(mf))

@@ -596,7 +596,10 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 	(*rl.begin())[8] + "\n" +
 	(*rl.begin())[10] + " " +
 	(*rl.begin())[9] + "\n" +
-	(*rl.begin())[11];
+	(*rl.begin())[11] + "\n" +
+	(*rl.begin())[6];
+
+	mf["country"] = (*rl.begin())[6];
 
 	for (i = 1; i <= 10; ++i) {
 		sprintf(idx, "%02d", i);
@@ -617,7 +620,8 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 	f->normalize_name(name);
 
 	latex la;
-	la.generate_invoice(mf, name);
+	if (la.generate_invoice(mf, name))
+		_err << "error generating invoice\n";
 }
 
 void frm_invoice::on_button_btn_gen_xml(GtkWidget *widget, gpointer data)
