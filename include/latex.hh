@@ -29,6 +29,7 @@ private:
 	int insert_prod_line(const char *idx,
 			     const char *desc,
 			     const char *qty,
+			     const char *unit,
 			     const char *value);
 
 	fs f;

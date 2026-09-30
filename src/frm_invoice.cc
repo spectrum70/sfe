@@ -608,6 +608,8 @@ void frm_invoice::on_button_btn_gen_cart(GtkWidget *widget, gpointer data)
 			gtk_entry_get_buffer(f->e_desc[i - 1]));
 		mf[string("qty_") + idx] = gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_qty[i - 1]));
+		mf[string("unit_") + idx] = gtk_entry_buffer_get_text(
+			gtk_entry_get_buffer(f->e_unit[i - 1]));
 		mf[string("value_") + idx] = gtk_entry_buffer_get_text(
 			gtk_entry_get_buffer(f->e_value[i - 1]));
 	}

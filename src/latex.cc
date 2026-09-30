@@ -80,6 +80,7 @@ int latex::insert_text(const char *rf_field, const char *latex)
 int latex::insert_prod_line(const char *idx,
 			    const char *desc,
 			    const char *qty,
+			    const char *unit,
 			    const char *value)
 {
 	string fields, rf = string("rf_e") + string(idx);
@@ -87,12 +88,12 @@ int latex::insert_prod_line(const char *idx,
 
 	if ((i = content.find(rf)) == string::npos)
 		return -1;
-	if ((i = content.rfind("{}{}{}{}", i)) == string::npos)
+	if ((i = content.rfind("{}{}{}{}{}", i)) == string::npos)
 		return -1;
 
-	fields = string("{") + desc + "}{" + qty + "}{" + value + "}{0.00}";
+	fields = string("{") + desc + "}{" + qty + "}{" + unit + "}{" + value + "}{0.00}";
 
-	content.replace(i, 8, fields.c_str());
+	content.replace(i, 10, fields.c_str());
 
 	return 0;
 }
@@ -133,12 +134,14 @@ int latex::setup_fields(m_fields &mf)
 		sprintf(idx, "%02d", i);
 		string desc = string("desc_") + idx;
 		string qty = string("qty_") + idx;
+		string unit = string("unit_") + idx;
 		string value = string("value_") + idx;
 
 		if (mf[desc] != "") {
 			if (insert_prod_line(idx,
 					mf[desc].c_str(),
 					mf[qty].c_str(),
+					mf[unit].c_str(),
 					mf[value].c_str()))
 				return -1;
 		}
