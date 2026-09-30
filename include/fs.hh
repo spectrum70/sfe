@@ -11,6 +11,7 @@ struct fs {
 	fs();
 	string get_user_home();
 	bool is_dir(const char *name);
+	bool file_exists(const char *name);
 	vector<string> dir(const char *path);
 	int create_tmp_file(char *tmp_name, char *content);
 	size_t get_files_size(const char *path);

@@ -63,6 +63,13 @@ bool fs::is_dir(const char *name)
 	return false;
 }
 
+bool fs::file_exists(const char *name)
+{
+	struct stat sb;
+
+	return (stat(name, &sb) == 0);
+}
+
 size_t fs::get_files_size(const char *path)
 {
 	std::ifstream in(path, std::ifstream::ate | std::ifstream::binary);
@@ -73,7 +80,9 @@ size_t fs::get_files_size(const char *path)
 bool fs::load_to_memory(const char *path, string &mem)
 {
 	std::ifstream in(path, std::ifstream::binary);
-	size_t size = get_files_size(path);
+	size_t size;
+
+	size = get_files_size(path);
 
 	mem.resize(size);
 
